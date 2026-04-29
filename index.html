@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Revolutions Per Minute</title>
+<title>rev per min.</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@700;900&display=swap" rel="stylesheet">
 
@@ -23,20 +23,19 @@ body{
     position:relative;
 }
 
-/* BRAND NAME - MOBILE FIRST */
+/* MOBILE FIRST BRAND TEXT */
 .brand{
     position:absolute;
     top:8%;
     left:50%;
     transform:translateX(-50%);
-    font-size:2.3rem;
-    font-weight:900;
+    font-size:1.7rem;
+    font-weight:700;
     color:#ff2a2a;
     letter-spacing:1px;
-    text-transform:uppercase;
+    text-transform:lowercase;
     text-align:center;
     width:92%;
-    line-height:1.05;
     z-index:5;
 }
 
@@ -51,22 +50,7 @@ body{
     animation-delay:0.5s;
 }
 
-/* SMOKE */
-.smoke{
-    position:absolute;
-    bottom:9%;
-    left:-35%;
-    width:180px;
-    height:70px;
-    border-radius:50%;
-    background:rgba(255,255,255,0.14);
-    filter:blur(22px);
-    animation:smoke 1s linear forwards;
-    animation-delay:0.5s;
-    z-index:1;
-}
-
-/* ANIMATIONS */
+/* CAR MOVEMENT */
 @keyframes run{
     0%{
         left:-45%;
@@ -78,25 +62,12 @@ body{
     }
 }
 
-@keyframes smoke{
-    0%{
-        left:-35%;
-        opacity:0;
-    }
-    20%{
-        opacity:1;
-    }
-    100%{
-        left:95%;
-        opacity:0;
-    }
-}
-
-/* DESKTOP / TABLET */
+/* TABLET / DESKTOP */
 @media(min-width:768px){
+
 .brand{
     top:7%;
-    font-size:3rem;
+    font-size:2.2rem;
     width:100%;
 }
 
@@ -105,20 +76,15 @@ body{
     bottom:8%;
 }
 
-.smoke{
-    width:240px;
-    height:85px;
-}
 }
 </style>
 </head>
 
 <body>
 
-<div class="brand">Revolutions Per Minute</div>
+<div class="brand">rev per min.</div>
 
-<img src="car.png" class="car">
-<div class="smoke"></div>
+<img src="car.png" class="car" alt="race car">
 
 </body>
 </html>
