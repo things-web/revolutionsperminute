@@ -123,14 +123,28 @@
     }
   .hero-car {
       position: absolute;
-      width: 760px;
+      width: 520px;
       max-width: 95vw;
-      bottom: 14%;
+      bottom: 18%;
       left: -90%;
       opacity: 0.95;
       z-index: 1;
       animation: raceBlast 0.9s cubic-bezier(.1,.9,.2,1) 0.4s forwards;
       filter: drop-shadow(0 0 20px rgba(255,0,0,0.25));
+    }
+
+    .smoke-trail {
+      position: absolute;
+      width: 420px;
+      height: 120px;
+      left: -35%;
+      bottom: 22%;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,255,255,0.28) 0%, rgba(255,0,0,0.18) 35%, rgba(255,255,255,0.08) 55%, transparent 75%);
+      filter: blur(22px);
+      opacity: 0;
+      z-index: 0;
+      animation: smokeBlast 0.95s ease-out 0.42s forwards;
     }
 
     .speed-lines {
@@ -145,10 +159,17 @@
       0% { left: -90%; opacity: 0; transform: scale(0.92); }
       8% { opacity: 1; }
       65% { left: 45%; opacity: 1; transform: scale(1); }
-      100% { left: 120%; opacity: 0; transform: scale(1.03); }
+      100% { left: 145%; opacity: 0; transform: scale(1.06); visibility: hidden; }
     }
       70% { left: 8%; transform: translateY(-4px) scale(1.02); }
       100% { left: 2%; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes smokeBlast {
+      0% { left: -40%; opacity: 0; transform: scale(.7); }
+      15% { opacity: .9; }
+      70% { left: 42%; opacity: .55; transform: scale(1.15); }
+      100% { left: 110%; opacity: 0; transform: scale(1.4); }
     }
 
     @keyframes streak {
@@ -166,6 +187,7 @@
 
 <header>
   <div class="speed-lines"></div>
+  <div class="smoke-trail"></div>
   <img class="hero-car" src="car.png" alt="RPM Race Car">
   <div class="logo">RPM</div>
   <div class="sub">Revolutions Per Minute</div>
