@@ -20,20 +20,23 @@ body{
     height:100vh;
     width:100%;
     font-family:'Titillium Web',sans-serif;
+    position:relative;
 }
 
-/* CENTER BRAND NAME */
+/* BRAND NAME - MOBILE FIRST */
 .brand{
     position:absolute;
-    top:50%;
+    top:8%;
     left:50%;
-    transform:translate(-50%,-50%);
-    font-size:5rem;
+    transform:translateX(-50%);
+    font-size:2.3rem;
     font-weight:900;
     color:#d10000;
-    letter-spacing:2px;
+    letter-spacing:1px;
     text-transform:uppercase;
-    white-space:nowrap;
+    text-align:center;
+    width:92%;
+    line-height:1.05;
     z-index:5;
 }
 
@@ -41,8 +44,8 @@ body{
 .car{
     position:absolute;
     bottom:8%;
-    left:-40%;
-    width:420px;
+    left:-45%;
+    width:320px;
     z-index:4;
     animation:run 0.75s linear forwards;
     animation-delay:0.5s;
@@ -51,19 +54,19 @@ body{
 /* SMOKE */
 .smoke{
     position:absolute;
-    bottom:10%;
-    left:-30%;
-    width:260px;
-    height:90px;
+    bottom:9%;
+    left:-35%;
+    width:180px;
+    height:70px;
     border-radius:50%;
-    background:rgba(180,180,180,0.35);
-    filter:blur(25px);
+    background:rgba(170,170,170,0.30);
+    filter:blur(22px);
     animation:smoke 1s linear forwards;
     animation-delay:0.5s;
     z-index:1;
 }
 
-/* CAR MOVEMENT */
+/* ANIMATIONS */
 @keyframes run{
     0%{
         left:-45%;
@@ -75,37 +78,36 @@ body{
     }
 }
 
-/* SMOKE MOVEMENT */
 @keyframes smoke{
     0%{
-        left:-30%;
+        left:-35%;
         opacity:0;
     }
     20%{
         opacity:1;
     }
     100%{
-        left:90%;
+        left:95%;
         opacity:0;
     }
 }
 
-/* MOBILE */
-@media(max-width:768px){
+/* DESKTOP / TABLET */
+@media(min-width:768px){
 .brand{
-    font-size:2.4rem;
-    text-align:center;
-    width:90%;
-    white-space:normal;
+    top:7%;
+    font-size:3rem;
+    width:100%;
 }
 
 .car{
-    width:260px;
-    bottom:7%;
+    width:430px;
+    bottom:8%;
 }
 
 .smoke{
-    width:180px;
+    width:240px;
+    height:85px;
 }
 }
 </style>
