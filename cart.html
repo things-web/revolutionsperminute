@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Cart</title>
+
+<style>
+body{
+    font-family:Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    background:#fff;
+}
+
+h2{
+    text-align:center;
+}
+
+/* CART ITEM */
+.item{
+    border-bottom:1px solid #eee;
+    padding:12px 0;
+}
+
+.name{
+    font-weight:bold;
+}
+
+/* TOTAL */
+.total{
+    text-align:center;
+    margin-top:20px;
+    font-size:1.2rem;
+    font-weight:bold;
+}
+
+/* BUTTON */
+button{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    background:#25D366;
+    color:white;
+    font-size:1rem;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Your Cart</h2>
+
+<div id="cart"></div>
+
+<div class="total" id="total"></div>
+
+<button onclick="checkout()">Proceed to WhatsApp</button>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let container = document.getElementById("cart");
+let total = 0;
+
+if(cart.length === 0){
+    container.innerHTML = "<p style='text-align:center'>Cart is empty</p>";
+}
+
+cart.forEach(item => {
+
+    total += item.price * item.qty;
+
+    container.innerHTML += `
+        <div class="item">
+            <div class="name">${item.name}</div>
+            <div>Fit: ${item.fit}</div>
+            <div>Qty: ${item.qty}</div>
+            <div>Price: ₹${item.price}</div>
+        </div>
+    `;
+});
+
+document.getElementById("total").innerText = "Total: ₹" + total;
+
+/* WHATSAPP CHECKOUT */
+function checkout(){
+
+    let phone = "91XXXXXXXXXX"; // CHANGE THIS
+
+    let message = "🛒 Order Details:%0A%0A";
+
+    cart.forEach(item => {
+        message += `Product: ${item.name}%0AFit: ${item.fit}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
+    });
+
+    message += `TOTAL: ₹${total}`;
+
+    let url = `https://wa.me/${phone}?text=${message}`;
+
+    window.open(url, "_blank");
+}
+</script>
+
+</body>
+</html>
