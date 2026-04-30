@@ -120,7 +120,7 @@ header{
     margin-top:20px;
 }
 
-/* BOXES */
+/* TOP BOX */
 .square{
     width:88vw;
     max-width:340px;
@@ -154,47 +154,46 @@ header{
     object-fit:cover;
 }
 
-/* PRODUCT SECTION */
+@keyframes slide{
+    0%{transform:translateX(0%);}
+    33%{transform:translateX(-33.333%);}
+    66%{transform:translateX(-66.666%);}
+    100%{transform:translateX(0%);}
+}
+
+/* ========================= */
+/* PRODUCT SECTION (NEW) */
+/* ========================= */
+
 .product-section{
     margin-top:30px;
     display:flex;
-    flex-direction:column;
-    align-items:center;
+    justify-content:center;
 }
 
-.product-slider{
+.product-card{
     width:88vw;
     max-width:340px;
-    overflow:hidden;
-    border-radius:16px;
-}
-
-.product-track{
-    display:flex;
-    width:200%;
-    transition:0.5s ease;
-}
-
-/* 🧠 FIXED PRODUCT CARD */
-.product-card{
-    width:100%;
-    flex-shrink:0;
     background:#f4f4f4;
     padding:15px;
+    border-radius:16px;
     text-align:center;
 }
 
-/* ✅ FIX: no zoom, no crop */
-.product-card img{
-    width:100%;
-    height:200px;
-    object-fit:contain;
-    background:#fff;
-    padding:10px;
-    border-radius:12px;
+/* TWO IMAGES SIDE BY SIDE */
+.product-images{
+    display:flex;
+    gap:10px;
 }
 
-/* TEXT FIX */
+.product-images img{
+    width:50%;
+    height:160px;
+    object-fit:cover;
+    border-radius:12px;
+    background:#fff;
+}
+
 .product-card h2{
     margin-top:12px;
     font-size:1.1rem;
@@ -213,31 +212,11 @@ header{
     font-weight:700;
 }
 
-/* DOTS */
-.dots{
-    margin-top:10px;
-}
-
-.dot{
-    height:8px;
-    width:8px;
-    margin:0 4px;
-    display:inline-block;
-    background:#bbb;
-    border-radius:50%;
-    cursor:pointer;
-}
-
-.dot.active{
-    background:#000;
-}
-
-/* ANIMATION */
-@keyframes slide{
-    0%{transform:translateX(0%);}
-    33%{transform:translateX(-33.333%);}
-    66%{transform:translateX(-66.666%);}
-    100%{transform:translateX(0%);}
+/* RESPONSIVE */
+@media(min-width:768px){
+    .brand{font-size:2rem;}
+    .square{width:360px;height:190px;}
+    .collections{font-size:4rem;}
 }
 </style>
 </head>
@@ -278,34 +257,20 @@ header{
 
 </div>
 
-<!-- PRODUCT SECTION -->
+<!-- PRODUCT SECTION (NEW CLEAN VERSION) -->
 <div class="product-section">
 
-    <div class="product-slider">
+    <div class="product-card">
 
-        <div class="product-track" id="productTrack">
-
-            <div class="product-card">
-                <img src="assets/products/product1.jpg">
-                <h2>Ferrari Race Jersey</h2>
-                <p>Premium motorsport inspired wear</p>
-                <div class="price">₹1,499</div>
-            </div>
-
-            <div class="product-card">
-                <img src="assets/products/product2.jpg">
-                <h2>Red Bull Street Tee</h2>
-                <p>Limited edition racing streetwear</p>
-                <div class="price">₹1,299</div>
-            </div>
-
+        <div class="product-images">
+            <img src="assets/products/product1.jpg">
+            <img src="assets/products/product2.jpg">
         </div>
 
-    </div>
+        <h2>F1 Jersey Combo</h2>
+        <p>Premium motorsport inspired collection</p>
+        <div class="price">₹2,499</div>
 
-    <div class="dots">
-        <span class="dot active" onclick="slideProduct(0)"></span>
-        <span class="dot" onclick="slideProduct(1)"></span>
     </div>
 
 </div>
@@ -314,16 +279,6 @@ header{
 function toggleMenu(){
     document.querySelector(".menu-btn").classList.toggle("active");
     document.getElementById("menu").classList.toggle("active");
-}
-
-let productTrack = document.getElementById("productTrack");
-let productDots = document.querySelectorAll(".dot");
-
-function slideProduct(index){
-    productTrack.style.transform = `translateX(-${index * 100}%)`;
-
-    productDots.forEach(d => d.classList.remove("active"));
-    productDots[index].classList.add("active");
 }
 </script>
 
