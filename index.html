@@ -58,11 +58,9 @@ header{
     left:0;
 }
 
-/* positions */
 .menu-btn span:nth-child(1){ top:6px; }
 .menu-btn span:nth-child(2){ top:14px; }
 
-/* X animation */
 .menu-btn.active span:nth-child(1){
     transform:rotate(45deg);
     top:10px;
@@ -73,7 +71,6 @@ header{
     top:10px;
 }
 
-/* 🔥 KEY FIX: turn white when menu is open */
 .menu-btn.active span{
     background:#fff;
 }
@@ -88,14 +85,14 @@ header{
     color:#000;
 }
 
-/* ===== SIDE MENU ===== */
+/* SIDE MENU */
 .side-menu{
     position:fixed;
     top:0;
     left:-260px;
     width:240px;
     height:100vh;
-    background:#0b1b3a; /* dark blue */
+    background:#0b1b3a;
     padding:80px 20px;
     transition:0.3s;
     z-index:1000;
@@ -124,7 +121,7 @@ header{
     margin-top:20px;
 }
 
-/* BOX */
+/* BOXES */
 .square{
     width:88vw;
     max-width:340px;
@@ -137,7 +134,6 @@ header{
     align-items:center;
 }
 
-/* COLLECTION */
 .collections{
     color:#fff;
     font-family:'Bebas Neue',sans-serif;
@@ -145,7 +141,7 @@ header{
     text-decoration:none;
 }
 
-/* ===== SLIDER FIXED ===== */
+/* SLIDER */
 .slider-track{
     width:300%;
     height:100%;
@@ -160,12 +156,81 @@ header{
     object-fit:cover;
 }
 
-/* smooth correct sliding */
 @keyframes slide{
     0%{transform:translateX(0%);}
     33%{transform:translateX(-33.333%);}
     66%{transform:translateX(-66.666%);}
     100%{transform:translateX(0%);}
+}
+
+/* ===== PRODUCT SECTION (ADDED ONLY BELOW) ===== */
+
+.product-section{
+    margin-top:30px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.product-slider{
+    width:88vw;
+    max-width:340px;
+    overflow:hidden;
+    border-radius:16px;
+}
+
+.product-track{
+    display:flex;
+    width:200%;
+    transition:0.5s ease;
+}
+
+.product-card{
+    width:100%;
+    flex-shrink:0;
+    background:#f4f4f4;
+    padding:15px;
+    text-align:center;
+}
+
+.product-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.product-card h2{
+    margin-top:10px;
+    font-size:1.2rem;
+}
+
+.product-card p{
+    font-size:0.9rem;
+    color:#555;
+}
+
+.price{
+    margin-top:8px;
+    font-weight:700;
+}
+
+.dots{
+    margin-top:10px;
+}
+
+.dot{
+    height:8px;
+    width:8px;
+    margin:0 4px;
+    display:inline-block;
+    background:#bbb;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.dot.active{
+    background:#000;
 }
 
 /* RESPONSIVE */
@@ -181,7 +246,6 @@ header{
 
 <header>
 
-    <!-- 2 LINE MENU -->
     <div class="menu-btn" onclick="toggleMenu()">
         <span></span>
         <span></span>
@@ -189,18 +253,15 @@ header{
 
     <div class="brand">rev per min.</div>
 
-    <!-- CART -->
     <a href="cart.html" class="cart">🛒</a>
 
 </header>
 
-<!-- SIDE MENU -->
 <div class="side-menu" id="menu">
     <a href="index.html">Home</a>
     <a href="collections.html">Collections</a>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
     <div class="square">
@@ -217,10 +278,52 @@ header{
 
 </div>
 
+<!-- PRODUCT SECTION (NEW - BELOW EVERYTHING) -->
+<div class="product-section">
+
+    <div class="product-slider">
+
+        <div class="product-track" id="productTrack">
+
+            <div class="product-card">
+                <img src="assets/products/product1.jpg">
+                <h2>Ferrari Race Jersey</h2>
+                <p>Premium motorsport inspired wear</p>
+                <div class="price">₹1,499</div>
+            </div>
+
+            <div class="product-card">
+                <img src="assets/products/product2.jpg">
+                <h2>Red Bull Street Tee</h2>
+                <p>Limited edition racing streetwear</p>
+                <div class="price">₹1,299</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="dots">
+        <span class="dot active" onclick="slideProduct(0)"></span>
+        <span class="dot" onclick="slideProduct(1)"></span>
+    </div>
+
+</div>
+
 <script>
 function toggleMenu(){
     document.querySelector(".menu-btn").classList.toggle("active");
     document.getElementById("menu").classList.toggle("active");
+}
+
+let productTrack = document.getElementById("productTrack");
+let productDots = document.querySelectorAll(".dot");
+
+function slideProduct(index){
+    productTrack.style.transform = `translateX(-${index * 100}%)`;
+
+    productDots.forEach(d => d.classList.remove("active"));
+    productDots[index].classList.add("active");
 }
 </script>
 
