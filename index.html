@@ -38,7 +38,7 @@ header{
     letter-spacing:1px;
 }
 
-/* ===== 2-LINE MENU BUTTON ===== */
+/* ===== HAMBURGER (2 LINES) ===== */
 .menu-btn{
     position:absolute;
     left:18px;
@@ -58,14 +58,9 @@ header{
     left:0;
 }
 
-/* two lines */
-.menu-btn span:nth-child(1){
-    top:6px;
-}
-
-.menu-btn span:nth-child(2){
-    top:14px;
-}
+/* positions */
+.menu-btn span:nth-child(1){ top:6px; }
+.menu-btn span:nth-child(2){ top:14px; }
 
 /* X animation */
 .menu-btn.active span:nth-child(1){
@@ -78,6 +73,11 @@ header{
     top:10px;
 }
 
+/* 🔥 KEY FIX: turn white when menu is open */
+.menu-btn.active span{
+    background:#fff;
+}
+
 /* CART */
 .cart{
     position:absolute;
@@ -88,14 +88,14 @@ header{
     color:#000;
 }
 
-/* SIDE MENU */
+/* ===== SIDE MENU ===== */
 .side-menu{
     position:fixed;
     top:0;
     left:-260px;
     width:240px;
     height:100vh;
-    background:#000;
+    background:#0b1b3a; /* dark blue */
     padding:80px 20px;
     transition:0.3s;
     z-index:1000;
@@ -145,7 +145,7 @@ header{
     text-decoration:none;
 }
 
-/* ===== FIXED SLIDER ===== */
+/* ===== SLIDER FIXED ===== */
 .slider-track{
     width:300%;
     height:100%;
@@ -160,7 +160,7 @@ header{
     object-fit:cover;
 }
 
-/* CLEAN SLIDE */
+/* smooth correct sliding */
 @keyframes slide{
     0%{transform:translateX(0%);}
     33%{transform:translateX(-33.333%);}
