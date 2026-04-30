@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ferrari Swartwell</title>
+
+<style>
+body{font-family:Arial;margin:0;padding:20px;text-align:center;}
+img{width:100%;max-width:320px;}
+button{padding:12px 18px;margin-top:15px;background:black;color:white;border:none;border-radius:8px;}
+</style>
+</head>
+
+<body>
+
+<img src="assets/products/ferrari_swartwell.jpg">
+
+<h2>Ferrari Swartwell Oversized Tee</h2>
+<p>Oversized Fit</p>
+<h3>₹1299</h3>
+
+<button onclick="add()">Add to Cart</button>
+
+<script>
+function add(){
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+        name:"Ferrari Swartwell Oversized Tee",
+        price:1299,
+        fit:"Oversized",
+        qty:1
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("Added to cart");
+}
+</script>
+
+</body>
+</html>
