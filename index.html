@@ -15,164 +15,105 @@
 }
 
 body{
-    background:#fff;
     font-family:'Montserrat',sans-serif;
-    overflow-x:hidden;
+    background:#fff;
 }
 
 /* HEADER */
 header{
-    position:relative;
-    width:100%;
+    text-align:center;
     padding:18px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* BRAND */
-.brand{
-    font-size:1.5rem;
     font-weight:700;
     text-transform:lowercase;
-    letter-spacing:1px;
 }
 
-/* ===== HAMBURGER (2 LINES) ===== */
-.menu-btn{
-    position:absolute;
-    left:18px;
-    top:18px;
-    width:30px;
-    height:22px;
-    cursor:pointer;
-    z-index:1001;
-}
-
-.menu-btn span{
-    position:absolute;
-    width:100%;
-    height:3px;
-    background:#000;
-    transition:0.3s ease;
-    left:0;
-}
-
-/* positions */
-.menu-btn span:nth-child(1){ top:6px; }
-.menu-btn span:nth-child(2){ top:14px; }
-
-/* X animation */
-.menu-btn.active span:nth-child(1){
-    transform:rotate(45deg);
-    top:10px;
-}
-
-.menu-btn.active span:nth-child(2){
-    transform:rotate(-45deg);
-    top:10px;
-}
-
-/* 🔥 KEY FIX: turn white when menu is open */
-.menu-btn.active span{
-    background:#fff;
-}
-
-/* CART */
-.cart{
-    position:absolute;
-    right:18px;
-    top:18px;
-    font-size:22px;
-    text-decoration:none;
-    color:#000;
-}
-
-/* ===== SIDE MENU ===== */
-.side-menu{
-    position:fixed;
-    top:0;
-    left:-260px;
-    width:240px;
-    height:100vh;
-    background:#0b1b3a; /* dark blue */
-    padding:80px 20px;
-    transition:0.3s;
-    z-index:1000;
-}
-
-.side-menu a{
-    display:block;
-    color:#fff;
-    text-decoration:none;
-    font-size:1.2rem;
-    margin-bottom:20px;
-    font-weight:500;
-}
-
-.side-menu.active{
-    left:0;
-}
-
-/* MAIN */
-.main{
-    width:100%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-    margin-top:20px;
-}
-
-/* BOX */
-.square{
-    width:88vw;
-    max-width:340px;
-    height:170px;
-    background:#000;
-    border-radius:16px;
-    overflow:hidden;
+/* BUTTONS */
+.top-buttons{
     display:flex;
     justify-content:center;
-    align-items:center;
+    gap:12px;
+    margin-top:10px;
 }
 
-/* COLLECTION */
-.collections{
+.top-buttons button{
+    padding:10px 18px;
+    border:none;
+    background:#000;
     color:#fff;
-    font-family:'Bebas Neue',sans-serif;
-    font-size:3.4rem;
-    text-decoration:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
 }
 
-/* ===== SLIDER FIXED ===== */
-.slider-track{
-    width:300%;
-    height:100%;
-    display:flex;
-    animation:slide 9s infinite;
-}
-
-.slider-track img{
+/* SLIDER WRAPPER */
+.slider{
     width:100%;
-    height:100%;
+    max-width:360px;
+    margin:30px auto;
+    overflow:hidden;
+    border-radius:16px;
+}
+
+/* TRACK */
+.slider-track{
+    display:flex;
+    width:200%;
+    transition:0.5s ease;
+}
+
+/* PRODUCT CARD */
+.product{
+    width:100%;
     flex-shrink:0;
+    background:#f5f5f5;
+    padding:15px;
+    text-align:center;
+}
+
+/* IMAGE */
+.product img{
+    width:100%;
+    height:220px;
     object-fit:cover;
+    border-radius:12px;
 }
 
-/* smooth correct sliding */
-@keyframes slide{
-    0%{transform:translateX(0%);}
-    33%{transform:translateX(-33.333%);}
-    66%{transform:translateX(-66.666%);}
-    100%{transform:translateX(0%);}
+/* TEXT */
+.product h2{
+    margin-top:10px;
+    font-size:1.2rem;
 }
 
-/* RESPONSIVE */
-@media(min-width:768px){
-    .brand{font-size:2rem;}
-    .square{width:360px;height:190px;}
-    .collections{font-size:4rem;}
+.product p{
+    font-size:0.9rem;
+    color:#555;
+    margin-top:5px;
+}
+
+.price{
+    margin-top:8px;
+    font-weight:700;
+    font-size:1.1rem;
+}
+
+/* NAV DOTS */
+.dots{
+    text-align:center;
+    margin-top:10px;
+}
+
+.dot{
+    height:8px;
+    width:8px;
+    margin:0 4px;
+    display:inline-block;
+    background:#bbb;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.dot.active{
+    background:#000;
 }
 </style>
 </head>
@@ -180,47 +121,53 @@ header{
 <body>
 
 <header>
-
-    <!-- 2 LINE MENU -->
-    <div class="menu-btn" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-    </div>
-
-    <div class="brand">rev per min.</div>
-
-    <!-- CART -->
-    <a href="cart.html" class="cart">🛒</a>
-
+    rev per min.
 </header>
 
-<!-- SIDE MENU -->
-<div class="side-menu" id="menu">
-    <a href="index.html">Home</a>
-    <a href="collections.html">Collections</a>
+<!-- TWO BUTTONS -->
+<div class="top-buttons">
+    <button>Home</button>
+    <button>Collections</button>
 </div>
 
-<!-- MAIN -->
-<div class="main">
+<!-- PRODUCT SLIDER -->
+<div class="slider">
+    <div class="slider-track" id="track">
 
-    <div class="square">
-        <a href="collections.html" class="collections">collections</a>
-    </div>
-
-    <div class="square">
-        <div class="slider-track">
+        <!-- PRODUCT 1 -->
+        <div class="product">
             <img src="img1.jpg">
-            <img src="img2.jpg">
-            <img src="img3.jpg">
+            <h2>Ferrari Race Jersey</h2>
+            <p>Official inspired motorsport jersey</p>
+            <div class="price">₹1,499</div>
         </div>
-    </div>
 
+        <!-- PRODUCT 2 -->
+        <div class="product">
+            <img src="img2.jpg">
+            <h2>Red Bull Street Tee</h2>
+            <p>Premium racing streetwear edition</p>
+            <div class="price">₹1,299</div>
+        </div>
+
+    </div>
+</div>
+
+<!-- DOTS -->
+<div class="dots">
+    <span class="dot active" onclick="slide(0)"></span>
+    <span class="dot" onclick="slide(1)"></span>
 </div>
 
 <script>
-function toggleMenu(){
-    document.querySelector(".menu-btn").classList.toggle("active");
-    document.getElementById("menu").classList.toggle("active");
+let track = document.getElementById("track");
+let dots = document.querySelectorAll(".dot");
+
+function slide(index){
+    track.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach(d => d.classList.remove("active"));
+    dots[index].classList.add("active");
 }
 </script>
 
