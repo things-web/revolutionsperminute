@@ -141,7 +141,7 @@ header{
 }
 
 /* ========================= */
-/* SLIDER FIX (ONLY THIS PART CHANGED) */
+/* SLIDER (AUTO + CLICK FIX) */
 /* ========================= */
 
 .slider-track{
@@ -149,6 +149,7 @@ header{
     height:100%;
     display:flex;
     animation:slide 9s infinite;
+    cursor:pointer;
 }
 
 .slider-track img{
@@ -158,7 +159,7 @@ header{
     object-fit:cover;
 }
 
-/* CLEAN 1 → 2 → 3 → 1 LOOP */
+/* AUTO SLIDE */
 @keyframes slide{
     0%{transform:translateX(0%);}
     30%{transform:translateX(0%);}
@@ -255,7 +256,7 @@ header{
     </div>
 
     <div class="square">
-        <div class="slider-track">
+        <div class="slider-track" id="sliderTrack">
             <img src="img1.jpg">
             <img src="img2.jpg">
             <img src="img3.jpg">
@@ -274,9 +275,9 @@ header{
             <img src="assets/products/product2.jpg">
         </div>
 
-        <h2>F1 ferrari polo Jersey</h2>
+        <h2>F1 Jersey Combo</h2>
         <p>Premium motorsport inspired collection</p>
-        <div class="price">₹499</div>
+        <div class="price">₹2,499</div>
 
     </div>
 
@@ -287,6 +288,16 @@ function toggleMenu(){
     document.querySelector(".menu-btn").classList.toggle("active");
     document.getElementById("menu").classList.toggle("active");
 }
+
+/* CLICK TO CHANGE SLIDE */
+let slider = document.getElementById("sliderTrack");
+let current = 0;
+const total = 3;
+
+slider.addEventListener("click", () => {
+    current = (current + 1) % total;
+    slider.style.transform = `translateX(-${current * 100}%)`;
+});
 </script>
 
 </body>
