@@ -215,6 +215,11 @@ document.getElementById("fitDesc").innerText =
 "Relaxed loose fit with extra comfort and streetwear vibe.";
 }
 
+/* RESET BUTTON WHEN FIT CHANGES */
+const btn = document.getElementById("cartBtn");
+btn.innerText = "Add to Cart";
+btn.classList.remove("added");
+
 }
 
 function addToCart(){
