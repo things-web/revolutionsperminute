@@ -77,45 +77,53 @@ font-weight:700;
 text-align:left;
 }
 
-.sizes{
+.fit-options{
 display:flex;
 gap:10px;
 margin-top:12px;
 }
 
-.size-btn{
+.fit-btn{
 flex:1;
 padding:12px;
 border:1px solid #ddd;
 background:#fff;
 border-radius:10px;
 cursor:pointer;
-font-size:0.95rem;
+font-size:0.92rem;
 }
 
-.size-btn.active{
-border:1px solid #000;
+.fit-btn.active{
 background:#000;
 color:#fff;
+border:1px solid #000;
 }
 
-button{
+.fit-desc{
+margin-top:12px;
+font-size:0.88rem;
+color:#666;
+text-align:left;
+line-height:1.5;
+min-height:42px;
+}
+
+.cart-btn{
 width:100%;
 padding:15px;
 margin-top:24px;
-border:none;
+border:1px solid #000;
 background:#000;
 color:#fff;
 font-size:1rem;
 border-radius:12px;
 cursor:pointer;
+transition:0.25s ease;
 }
 
-.notice{
-margin-top:14px;
-font-size:14px;
-color:green;
-display:none;
+.cart-btn.added{
+background:#fff;
+color:#000;
 }
 </style>
 </head>
@@ -137,18 +145,18 @@ rev per min.
 
 <div class="desc" id="productDesc"></div>
 
-<div class="label">Select Size</div>
+<div class="label">Choose Fit</div>
 
-<div class="sizes">
-<div class="size-btn" onclick="pickSize(this,'S')">S</div>
-<div class="size-btn" onclick="pickSize(this,'M')">M</div>
-<div class="size-btn" onclick="pickSize(this,'L')">L</div>
-<div class="size-btn" onclick="pickSize(this,'XL')">XL</div>
+<div class="fit-options">
+<div class="fit-btn" onclick="pickFit(this,'Normal Fit')">Normal Fit</div>
+<div class="fit-btn" onclick="pickFit(this,'Oversized Fit')">Oversized Fit</div>
 </div>
 
-<button onclick="addToCart()">Add to Cart</button>
+<div class="fit-desc" id="fitDesc">
+Select a fit option above.
+</div>
 
-<div class="notice" id="notice">Added to cart ✓</div>
+<button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
 
 </div>
 
@@ -173,10 +181,10 @@ desc:"Special Monza edition built from iconic Ferrari racing heritage."
 },
 
 swartwell:{
-name:"Ferrari Oversized Drivers Tee",
+name:"Ferrari Swartwell Oversized Drivers Tee",
 price:1299,
 img:"assets/products/ferrari_oversized.jpg",
-desc:"Oversized motorsport streetwear fit for casual premium style."
+desc:"Streetwear motorsport inspired t-shirt for modern casual wear."
 }
 
 };
@@ -188,22 +196,31 @@ document.getElementById("productName").innerText = product.name;
 document.getElementById("productPrice").innerText = "₹" + product.price;
 document.getElementById("productDesc").innerText = product.desc;
 
-let selectedSize = "";
+let selectedFit = "";
 
-function pickSize(el,size){
+function pickFit(el,fit){
 
-document.querySelectorAll(".size-btn").forEach(btn=>{
+document.querySelectorAll(".fit-btn").forEach(btn=>{
 btn.classList.remove("active");
 });
 
 el.classList.add("active");
-selectedSize = size;
+selectedFit = fit;
+
+if(fit === "Normal Fit"){
+document.getElementById("fitDesc").innerText =
+"Regular clean everyday fit with a sharper body shape.";
+}else{
+document.getElementById("fitDesc").innerText =
+"Relaxed loose fit with extra comfort and streetwear vibe.";
+}
+
 }
 
 function addToCart(){
 
-if(selectedSize===""){
-alert("Please select a size");
+if(selectedFit === ""){
+alert("Please choose a fit");
 return;
 }
 
@@ -212,17 +229,15 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 cart.push({
 name:product.name,
 price:product.price,
-size:selectedSize,
+fit:selectedFit,
 qty:1
 });
 
 localStorage.setItem("cart", JSON.stringify(cart));
 
-document.getElementById("notice").style.display="block";
-
-setTimeout(()=>{
-document.getElementById("notice").style.display="none";
-},1500);
+const btn = document.getElementById("cartBtn");
+btn.innerText = "Added";
+btn.classList.add("added");
 
 }
 </script>
