@@ -75,14 +75,35 @@ header{
     background:#fff;
 }
 
-/* CART */
-.cart{
+/* PREMIUM CART */
+.cart-wrap{
     position:absolute;
     right:18px;
     top:18px;
-    font-size:22px;
     text-decoration:none;
     color:#000;
+    font-size:22px;
+}
+
+.cart-count{
+    position:absolute;
+    top:-7px;
+    right:-10px;
+    background:#000;
+    color:#fff;
+    font-size:10px;
+    min-width:18px;
+    height:18px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 4px;
+    font-weight:700;
+}
+
+.cart-count.hide{
+    display:none;
 }
 
 /* SIDE MENU */
@@ -140,10 +161,7 @@ header{
     text-decoration:none;
 }
 
-/* ========================= */
-/* SLIDER (AUTO + CLICK FIX) */
-/* ========================= */
-
+/* SLIDER */
 .slider-track{
     width:300%;
     height:100%;
@@ -159,7 +177,6 @@ header{
     object-fit:cover;
 }
 
-/* AUTO SLIDE */
 @keyframes slide{
     0%{transform:translateX(0%);}
     30%{transform:translateX(0%);}
@@ -240,7 +257,10 @@ header{
 
     <div class="brand">rev per min.</div>
 
-    <a href="cart.html" class="cart">🛒</a>
+    <a href="cart.html" class="cart-wrap">
+        🛒
+        <span class="cart-count hide" id="cartCount">0</span>
+    </a>
 
 </header>
 
@@ -292,12 +312,37 @@ function toggleMenu(){
 /* CLICK TO CHANGE SLIDE */
 let slider = document.getElementById("sliderTrack");
 let current = 0;
-const total = 3;
+const totalSlides = 3;
 
 slider.addEventListener("click", () => {
-    current = (current + 1) % total;
+    current = (current + 1) % totalSlides;
     slider.style.transform = `translateX(-${current * 100}%)`;
 });
+
+/* CART COUNT */
+function updateCartCount(){
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let total = 0;
+
+cart.forEach(item=>{
+    total += item.qty;
+});
+
+const badge = document.getElementById("cartCount");
+
+badge.innerText = total;
+
+if(total === 0){
+    badge.classList.add("hide");
+}else{
+    badge.classList.remove("hide");
+}
+
+}
+
+updateCartCount();
 </script>
 
 </body>
