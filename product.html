@@ -25,8 +25,8 @@ padding:18px;
 text-align:center;
 font-weight:700;
 font-size:1.1rem;
-border-bottom:1px solid #eee;
 position:relative;
+border-bottom:1px solid #eee;
 }
 
 .back{
@@ -38,7 +38,7 @@ color:#111;
 font-size:14px;
 }
 
-/* PREMIUM CART */
+/* CART */
 .cart-wrap{
 position:absolute;
 right:18px;
@@ -156,6 +156,13 @@ transition:0.25s ease;
 background:#fff;
 color:#000;
 }
+
+.coming{
+background:#f5f5f5;
+color:#111;
+border:1px solid #e5e5e5;
+cursor:default;
+}
 </style>
 </head>
 
@@ -182,9 +189,9 @@ rev per min.
 
 <div class="desc" id="productDesc"></div>
 
-<div class="label">Choose Fit</div>
+<div class="label" id="fitLabel">Choose Fit</div>
 
-<div class="fit-options">
+<div class="fit-options" id="fitWrap">
 <div class="fit-btn" onclick="pickFit(this,'Normal Fit')">Normal Fit</div>
 <div class="fit-btn" onclick="pickFit(this,'Oversized Fit')">Oversized Fit</div>
 </div>
@@ -207,21 +214,24 @@ polo:{
 name:"Ferrari 2025 Drivers Polo Jersey",
 price:1499,
 img:"assets/products/ferrari_polo_2025.jpg",
-desc:"Premium Ferrari inspired jersey crafted for everyday comfort and race-day style."
+desc:"Premium Ferrari inspired jersey crafted for everyday comfort and race-day style.",
+live:true
 },
 
 monza:{
 name:"Ferrari Monza Edition",
 price:1599,
 img:"assets/products/ferrari-puma-monza-2025-special-edition-t-shirt.jpg",
-desc:"Special Monza edition built from iconic Ferrari racing heritage."
+desc:"Special Monza edition built from iconic Ferrari racing heritage.",
+live:false
 },
 
 swartwell:{
 name:"Ferrari Swartwell Oversized Drivers Tee",
 price:1299,
 img:"assets/products/ferrari_oversized.jpg",
-desc:"Streetwear motorsport inspired t-shirt for modern casual wear."
+desc:"Streetwear motorsport inspired t-shirt for modern casual wear.",
+live:false
 }
 
 };
@@ -234,6 +244,19 @@ document.getElementById("productPrice").innerText = "₹" + product.price;
 document.getElementById("productDesc").innerText = product.desc;
 
 let selectedFit = "";
+
+if(!product.live){
+
+document.getElementById("fitLabel").style.display = "none";
+document.getElementById("fitWrap").style.display = "none";
+document.getElementById("fitDesc").style.display = "none";
+
+const btn = document.getElementById("cartBtn");
+btn.innerText = "Coming Soon";
+btn.classList.add("coming");
+btn.onclick = null;
+
+}
 
 function pickFit(el,fit){
 
@@ -260,6 +283,8 @@ btn.classList.remove("added");
 
 function addToCart(){
 
+if(!product.live) return;
+
 if(selectedFit === ""){
 alert("Please choose a fit");
 return;
@@ -267,12 +292,21 @@ return;
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+let existing = cart.find(item =>
+item.name === product.name &&
+item.fit === selectedFit
+);
+
+if(existing){
+existing.qty += 1;
+}else{
 cart.push({
 name:product.name,
 price:product.price,
 fit:selectedFit,
 qty:1
 });
+}
 
 localStorage.setItem("cart", JSON.stringify(cart));
 
@@ -281,6 +315,7 @@ btn.innerText = "Added";
 btn.classList.add("added");
 
 updateCartCount();
+
 }
 
 function updateCartCount(){
