@@ -193,7 +193,7 @@ object-fit:cover;
 100%{transform:translateX(0%);}
 }
 
-/* FEATURED */
+/* FEATURED PRODUCT */
 .featured{
 width:88vw;
 max-width:340px;
@@ -218,12 +218,17 @@ object-fit:contain;
 margin-bottom:8px;
 }
 
+/* FIXED PRODUCT TITLE */
 .featured h2{
-font-family:'Bebas Neue',sans-serif;
-font-size:1.18rem;
-letter-spacing:0.5px;
-margin-bottom:8px;
-line-height:1.2;
+font-family:'Montserrat',sans-serif;
+font-size:0.98rem;
+font-weight:700;
+line-height:1.35;
+letter-spacing:0.3px;
+text-align:center;
+margin:8px auto 10px;
+max-width:92%;
+color:#fff;
 }
 
 .price{
@@ -252,6 +257,18 @@ font-size:0.82rem;
 letter-spacing:0.5px;
 color:#555;
 padding:0 12px;
+}
+
+/* MOBILE */
+@media(max-width:480px){
+
+.featured h2{
+font-size:0.92rem;
+line-height:1.32;
+max-width:94%;
+padding:0 6px;
+}
+
 }
 
 /* DESKTOP */
