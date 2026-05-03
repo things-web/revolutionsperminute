@@ -1,3 +1,4 @@
+<!-- FULL UPDATED cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,16 +19,17 @@ body{
 font-family:'Montserrat',sans-serif;
 background:#fff;
 color:#111;
-padding:20px;
+padding:18px;
+max-width:520px;
+margin:auto;
 }
 
 h2{
 text-align:center;
-font-size:1.25rem;
-margin-bottom:22px;
+font-size:1.2rem;
+margin-bottom:18px;
 }
 
-/* CART ITEM */
 .item{
 display:flex;
 gap:14px;
@@ -37,8 +39,8 @@ align-items:flex-start;
 }
 
 .item img{
-width:74px;
-height:74px;
+width:76px;
+height:76px;
 object-fit:contain;
 background:#fff;
 border-radius:10px;
@@ -47,82 +49,84 @@ flex-shrink:0;
 
 .info{
 flex:1;
+min-width:0;
 }
 
 .name{
-font-size:0.92rem;
+font-size:0.9rem;
 font-weight:700;
 line-height:1.4;
-margin-bottom:5px;
+margin-bottom:4px;
 }
 
 .meta{
-font-size:0.82rem;
+font-size:0.8rem;
 color:#666;
-margin-bottom:8px;
+margin-bottom:10px;
 }
 
-/* QTY */
-.qty-row{
+.row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.qty{
 display:flex;
 align-items:center;
 gap:8px;
-margin-bottom:8px;
 }
 
-.qty-btn{
+.qty button{
 width:28px;
 height:28px;
 border:1px solid #ddd;
 background:#fff;
+border-radius:6px;
 font-size:16px;
 cursor:pointer;
-border-radius:6px;
 }
 
-.qty-num{
-min-width:20px;
+.qty span{
+font-size:0.9rem;
+font-weight:700;
+min-width:18px;
 text-align:center;
+}
+
+.price{
 font-size:0.92rem;
 font-weight:700;
 }
 
 .remove{
-font-size:0.78rem;
+margin-top:8px;
+font-size:0.76rem;
 color:#777;
 cursor:pointer;
-text-decoration:underline;
 }
 
-.price{
-font-size:0.88rem;
-font-weight:700;
-margin-top:6px;
-}
-
-/* NOTE */
 .note{
 margin-top:18px;
 font-size:0.78rem;
 color:#666;
 text-align:center;
 line-height:1.5;
-padding:0 10px;
 }
 
-/* TOTAL */
 .total{
 text-align:center;
-margin-top:18px;
-font-size:1.12rem;
+margin-top:16px;
+font-size:1.08rem;
 font-weight:700;
 }
 
-/* CHECKOUT */
-button{
+.checkout{
 width:100%;
 padding:14px;
-margin-top:18px;
+margin-top:16px;
 border:1px solid #111;
 background:#fff;
 color:#111;
@@ -132,12 +136,10 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* EMPTY */
 .empty{
 text-align:center;
 margin-top:40px;
 color:#666;
-font-size:0.95rem;
 }
 </style>
 </head>
@@ -154,30 +156,37 @@ Final payable amount may vary slightly based on delivery location.
 
 <div class="total" id="total"></div>
 
-<button id="checkoutBtn" onclick="checkout()">Proceed to WhatsApp</button>
+<button class="checkout" id="checkoutBtn" onclick="checkout()">
+Proceed to WhatsApp
+</button>
 
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+function saveCart(){
+localStorage.setItem("cart",JSON.stringify(cart));
+renderCart();
+}
+
 function renderCart(){
 
-let container = document.getElementById("cart");
+let box = document.getElementById("cart");
 let totalBox = document.getElementById("total");
 let note = document.getElementById("note");
-let checkoutBtn = document.getElementById("checkoutBtn");
+let btn = document.getElementById("checkoutBtn");
 
-container.innerHTML = "";
+box.innerHTML = "";
 
-if(cart.length === 0){
-container.innerHTML = "<div class='empty'>Your cart is empty</div>";
-totalBox.innerText = "";
+if(cart.length===0){
+box.innerHTML = "<div class='empty'>Your cart is empty</div>";
+totalBox.innerHTML = "";
 note.style.display = "none";
-checkoutBtn.style.display = "none";
+btn.style.display = "none";
 return;
 }
 
 note.style.display = "block";
-checkoutBtn.style.display = "block";
+btn.style.display = "block";
 
 let total = 0;
 
@@ -186,28 +195,30 @@ cart.forEach((item,index)=>{
 let subtotal = item.price * item.qty;
 total += subtotal;
 
-let image = item.img ? item.img : "assets/products/ferrari-front.jpg";
-
-container.innerHTML += `
+box.innerHTML += `
 <div class="item">
 
-<img src="${image}" alt="product">
+<img src="${item.img || 'assets/products/ferrari-front.jpg'}">
 
 <div class="info">
 
 <div class="name">${item.name}</div>
 
-<div class="meta">Fit: ${item.fit}</div>
+<div class="meta">${item.fit}</div>
 
-<div class="qty-row">
-<button class="qty-btn" onclick="changeQty(${index},-1)">−</button>
-<div class="qty-num">${item.qty}</div>
-<button class="qty-btn" onclick="changeQty(${index},1)">+</button>
+<div class="row">
+
+<div class="qty">
+<button onclick="changeQty(${index},-1)">−</button>
+<span>${item.qty}</span>
+<button onclick="changeQty(${index},1)">+</button>
+</div>
+
+<div class="price">₹${subtotal}</div>
+
 </div>
 
 <div class="remove" onclick="removeItem(${index})">Remove</div>
-
-<div class="price">₹${subtotal}</div>
 
 </div>
 
@@ -218,48 +229,38 @@ container.innerHTML += `
 totalBox.innerText = "Total: ₹" + total;
 }
 
-/* CHANGE QTY */
-function changeQty(index,change){
+function changeQty(index,val){
+cart[index].qty += val;
 
-cart[index].qty += change;
-
-if(cart[index].qty <= 0){
+if(cart[index].qty<=0){
 cart.splice(index,1);
 }
 
 saveCart();
 }
 
-/* REMOVE */
 function removeItem(index){
 cart.splice(index,1);
 saveCart();
 }
 
-/* SAVE */
-function saveCart(){
-localStorage.setItem("cart",JSON.stringify(cart));
-renderCart();
-}
-
-/* CHECKOUT */
 function checkout(){
 
 let total = 0;
-let message = "Hello, I would like to place an order:%0A%0A";
+let msg = "Hello, I would like to place an order:%0A%0A";
 
 cart.forEach(item=>{
 
 let subtotal = item.price * item.qty;
 total += subtotal;
 
-message += `• ${item.name}%0AFit: ${item.fit}%0AQty: ${item.qty}%0AAmount: ₹${subtotal}%0A%0A`;
+msg += `• ${item.name}%0AFit: ${item.fit}%0AQty: ${item.qty}%0AAmount: ₹${subtotal}%0A%0A`;
 
 });
 
-message += `Total: ₹${total}`;
+msg += `Total: ₹${total}`;
 
-window.open("https://wa.me/919961365304?text=" + message,"_blank");
+window.open("https://wa.me/919961365304?text="+msg,"_blank");
 }
 
 renderCart();
