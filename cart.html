@@ -3,143 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Cart | rev per min.®</title>
+<title>Cart | rev per min.®</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
 body{
-font-family:'Montserrat',sans-serif;
-background:#fff;
-color:#111;
-padding:18px;
+font-family:Montserrat;
 max-width:520px;
 margin:auto;
+padding:18px;
 }
 
-h2{
-text-align:center;
-font-size:1.2rem;
-margin-bottom:18px;
-}
+h2{text-align:center;}
 
 .item{
 display:flex;
-gap:14px;
-padding:16px 0;
+gap:12px;
 border-bottom:1px solid #eee;
-align-items:flex-start;
+padding:14px 0;
 }
 
-.item img{
-width:76px;
-height:76px;
+img{
+width:70px;
+height:70px;
 object-fit:contain;
-background:#fff;
-border-radius:10px;
-flex-shrink:0;
 }
 
-.info{
-flex:1;
-min-width:0;
-}
+.name{font-weight:700;font-size:0.9rem;}
+.meta{font-size:0.8rem;color:#666;}
 
-.name{
-font-size:0.9rem;
-font-weight:700;
-line-height:1.4;
-margin-bottom:4px;
-}
+.qty{display:flex;gap:8px;align-items:center;}
+button{cursor:pointer;}
 
-.meta{
-font-size:0.8rem;
-color:#666;
-margin-bottom:10px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:10px;
-flex-wrap:wrap;
-}
-
-.qty{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.qty button{
-width:28px;
-height:28px;
-border:1px solid #ddd;
-background:#fff;
-border-radius:6px;
-font-size:16px;
-cursor:pointer;
-}
-
-.qty span{
-font-size:0.9rem;
-font-weight:700;
-min-width:18px;
-text-align:center;
-}
-
-.price{
-font-size:0.92rem;
-font-weight:700;
-}
-
-.remove{
-margin-top:8px;
-font-size:0.76rem;
-color:#777;
-cursor:pointer;
-}
-
-.note{
-margin-top:18px;
-font-size:0.78rem;
-color:#666;
-text-align:center;
-line-height:1.5;
-}
-
-.total{
-text-align:center;
-margin-top:16px;
-font-size:1.08rem;
-font-weight:700;
-}
+.total{text-align:center;font-weight:700;margin-top:16px;}
 
 .checkout{
 width:100%;
 padding:14px;
+background:#111;
+color:#fff;
+border:none;
 margin-top:16px;
-border:1px solid #111;
-background:#fff;
-color:#111;
-font-size:0.95rem;
 font-weight:700;
-border-radius:8px;
-cursor:pointer;
+border-radius:10px;
 }
 
-.empty{
-text-align:center;
-margin-top:40px;
-color:#666;
+.info-box{
+margin:14px 0;
+padding:12px;
+border:1px solid #eee;
+border-radius:10px;
+font-size:0.85rem;
+line-height:1.5;
+color:#444;
 }
+
+.toast{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#111;
+color:#fff;
+padding:10px 14px;
+border-radius:8px;
+opacity:0;
+transition:0.3s;
+}
+.toast.show{opacity:1;}
 </style>
 </head>
 
@@ -149,130 +81,94 @@ color:#666;
 
 <div id="cart"></div>
 
-<div class="note" id="note">
-Final payable amount may vary slightly based on delivery location.
+<div class="info-box">
+1. Tap checkout<br>
+2. Order auto-copied<br>
+3. Open Instagram<br>
+4. Paste & send
 </div>
 
 <div class="total" id="total"></div>
 
-<button class="checkout" id="checkoutBtn" onclick="checkout()">
-Proceed to Instagram
-</button>
+<button class="checkout" onclick="checkout()">Proceed to Instagram</button>
+
+<div class="toast" id="toast"></div>
 
 <script>
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-function saveCart(){
-localStorage.setItem("cart",JSON.stringify(cart));
-renderCart();
-}
+function render(){
 
-function renderCart(){
+let box=document.getElementById("cart");
+box.innerHTML="";
 
-let box = document.getElementById("cart");
-let totalBox = document.getElementById("total");
-let note = document.getElementById("note");
-let btn = document.getElementById("checkoutBtn");
+let total=0;
 
-box.innerHTML = "";
+cart.forEach((i,idx)=>{
 
-if(cart.length===0){
-box.innerHTML = "<div class='empty'>Your cart is empty</div>";
-totalBox.innerHTML = "";
-note.style.display = "none";
-btn.style.display = "none";
-return;
-}
+total+=i.price*i.qty;
 
-note.style.display = "block";
-btn.style.display = "block";
-
-let total = 0;
-
-cart.forEach((item,index)=>{
-
-let subtotal = item.price * item.qty;
-total += subtotal;
-
-box.innerHTML += `
+box.innerHTML+=`
 <div class="item">
-
-<img src="${item.img || 'assets/products/ferrari-front.jpg'}">
-
-<div class="info">
-
-<div class="name">${item.name}</div>
-
-<div class="meta">Size: ${item.size}</div>
-
-<div class="row">
+<img src="${i.img}">
+<div>
+<div class="name">${i.name}</div>
+<div class="meta">Size: ${i.size}</div>
 
 <div class="qty">
-<button onclick="changeQty(${index},-1)">−</button>
-<span>${item.qty}</span>
-<button onclick="changeQty(${index},1)">+</button>
+<button onclick="change(${idx},-1)">-</button>
+${i.qty}
+<button onclick="change(${idx},1)">+</button>
 </div>
 
-<div class="price">₹${subtotal}</div>
-
+<div>₹${i.price*i.qty}</div>
 </div>
-
-<div class="remove" onclick="removeItem(${index})">Remove</div>
-
-</div>
-
-</div>
-`;
+</div>`;
 });
 
-totalBox.innerText = "Total: ₹" + total;
+document.getElementById("total").innerText="Total: ₹"+total;
 }
 
-function changeQty(index,val){
-cart[index].qty += val;
-
-if(cart[index].qty<=0){
-cart.splice(index,1);
+function change(i,v){
+cart[i].qty+=v;
+if(cart[i].qty<=0) cart.splice(i,1);
+save();
 }
 
-saveCart();
+function save(){
+localStorage.setItem("cart",JSON.stringify(cart));
+render();
 }
 
-function removeItem(index){
-cart.splice(index,1);
-saveCart();
-}
-
-/* 🚀 INSTAGRAM CHECKOUT */
+/* checkout */
 function checkout(){
 
-let total = 0;
-let msg = "🛒 NEW ORDER - rev per min.%0A%0A";
+let msg="🛒 ORDER - rev per min.%0A%0A";
+let total=0;
 
-cart.forEach(item=>{
-let subtotal = item.price * item.qty;
-total += subtotal;
-
-msg += `• ${item.name}%0A`;
-msg += `Size: ${item.size}%0A`;
-msg += `Qty: ${item.qty}%0A`;
-msg += `Amount: ₹${subtotal}%0A%0A`;
+cart.forEach(i=>{
+total+=i.price*i.qty;
+msg+=`${i.name}%0ASize: ${i.size}%0AQty: ${i.qty}%0A%0A`;
 });
 
-msg += `TOTAL: ₹${total}%0A%0A`;
-msg += `Please confirm availability and payment.`;
+msg+=`TOTAL: ₹${total}`;
 
-/* COPY MESSAGE */
 navigator.clipboard.writeText(decodeURIComponent(msg));
 
-/* OPEN INSTAGRAM */
-window.open("https://ig.me/m/revolutions.perminute", "_blank");
+window.open("https://ig.me/m/revolutions.perminute","_blank");
 
-alert("Order copied! Paste it in Instagram chat.");
+toast("Order copied");
 }
 
-renderCart();
+function toast(m){
+let t=document.getElementById("toast");
+t.innerText=m;
+t.classList.add("show");
+setTimeout(()=>t.classList.remove("show"),2000);
+}
+
+render();
 
 </script>
 
