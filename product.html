@@ -1,3 +1,4 @@
+<!-- FULL UPDATED product.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product | rev per min.®</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Montserrat',sans-serif;background:#fff;color:#111;}
 
-/* HEADER */
 header{
 position:relative;
 padding:18px;
@@ -59,19 +59,18 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
+padding:0 4px;
 font-weight:700;
 }
 
 .cart-count.hide{display:none;}
 
-/* CONTAINER */
 .container{
 max-width:420px;
 margin:auto;
-padding:18px;
+padding:22px;
 }
 
-/* SLIDER */
 .gallery{
 overflow:hidden;
 border-radius:16px;
@@ -79,28 +78,26 @@ border-radius:16px;
 
 .slides{
 display:flex;
-transition:0.45s ease;
+transition:0.35s ease;
 }
 
 .slides img{
 width:100%;
 flex-shrink:0;
-height:440px;
-object-fit:cover;
-border-radius:16px;
+height:340px;
+object-fit:contain;
 }
 
-/* DOTS */
 .dots{
 display:flex;
 justify-content:center;
 gap:8px;
-margin-top:10px;
+margin-top:12px;
 }
 
 .dot{
-width:7px;
-height:7px;
+width:8px;
+height:8px;
 border-radius:50%;
 background:#ccc;
 cursor:pointer;
@@ -108,73 +105,76 @@ cursor:pointer;
 
 .dot.active{
 background:#111;
-transform:scale(1.2);
 }
 
-/* TEXT */
 h1{
-text-align:center;
 font-size:1.05rem;
+line-height:1.45;
 margin-top:18px;
+text-align:center;
 }
 
 .price{
-text-align:center;
 font-size:1.35rem;
 font-weight:700;
 margin-top:10px;
+text-align:center;
 }
 
 .desc{
-text-align:center;
 font-size:0.9rem;
 color:#666;
-margin-top:12px;
 line-height:1.6;
+margin-top:12px;
+text-align:center;
 }
 
-/* SIZE */
 .label{
 margin-top:24px;
 font-size:0.9rem;
 font-weight:700;
 }
 
-.size-grid{
+.fit-options{
 display:flex;
 gap:10px;
-margin-top:12px;
+margin-top:10px;
 }
 
-.size-box{
+.fit-btn{
 flex:1;
-padding:12px;
+padding:14px;
 border:1px solid #ddd;
-border-radius:10px;
-text-align:center;
-font-weight:700;
+background:#fff;
+border-radius:12px;
 cursor:pointer;
 }
 
-.size-box.active{
+.fit-btn.active{
 background:#111;
 color:#fff;
 border-color:#111;
 }
 
-.size-box.disabled{
-opacity:0.4;
-pointer-events:none;
+.fit-title{
+font-size:0.92rem;
+font-weight:700;
 }
 
-/* NOTE */
-.fit-note{
-font-size:0.8rem;
+.fit-sub{
+font-size:0.72rem;
+margin-top:4px;
+opacity:0.8;
+}
+
+.fit-desc{
+font-size:0.82rem;
 color:#666;
 margin-top:12px;
+line-height:1.5;
+min-height:42px;
 }
 
-/* BUTTON */
 .cart-btn{
 width:100%;
 padding:15px;
@@ -194,10 +194,9 @@ color:#111;
 border:1px solid #111;
 }
 
-/* MOBILE */
-@media(max-width:480px){
-.slides img{height:480px;}
-.container{padding:14px;}
+.enquiry-btn{
+background:#111;
+color:#fff;
 }
 </style>
 </head>
@@ -205,17 +204,20 @@ border:1px solid #111;
 <body>
 
 <header>
+
 <a href="collections.html" class="back">←</a>
+
 <img src="assets/logo.png" class="logo">
 
 <a href="cart.html" class="cart-wrap">
-🛒<span class="cart-count hide" id="cartCount">0</span>
+🛒
+<span class="cart-count hide" id="cartCount">0</span>
 </a>
+
 </header>
 
 <div class="container">
 
-<!-- SLIDER -->
 <div class="gallery">
 <div class="slides" id="slides"></div>
 </div>
@@ -226,21 +228,24 @@ border:1px solid #111;
 <div class="price" id="price"></div>
 <div class="desc" id="desc"></div>
 
-<!-- SIZE -->
-<div class="label">Select Size</div>
+<div class="label" id="fitLabel">Choose Fit</div>
 
-<div class="size-grid">
+<div class="fit-options" id="fitWrap">
 
-<div class="size-box disabled">S</div>
-<div class="size-box disabled">M</div>
+<button class="fit-btn" onclick="pickFit(this,'Standard Fit')">
+<div class="fit-title">Standard Fit ⭐</div>
+<div class="fit-sub">Recommended</div>
+</button>
 
-<div class="size-box" onclick="selectSize(this,'L')">L</div>
-<div class="size-box" onclick="selectSize(this,'XL')">XL</div>
+<button class="fit-btn" onclick="pickFit(this,'Slim Fit')">
+<div class="fit-title">Slim Fit</div>
+<div class="fit-sub">Closer body fit</div>
+</button>
 
 </div>
 
-<div class="fit-note">
-⚠️ This product runs slightly larger than standard sizing.
+<div class="fit-desc" id="fitDesc">
+Runs slightly smaller than usual. Standard Fit recommended.
 </div>
 
 <button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
@@ -248,14 +253,12 @@ border:1px solid #111;
 </div>
 
 <script>
-
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "polo";
 
-/* ✅ IMPORTANT: UNIQUE PRODUCT ID ADDED */
 const products = {
+
 polo:{
-id:"ferrari_2025_jersey",
 name:"Ferrari 2025 Drivers Sublimation Wear",
 price:469,
 desc:"Race inspired jersey built for everyday wear.",
@@ -264,16 +267,38 @@ images:[
 "assets/products/ferrari-back.jpg"
 ],
 live:true
+},
+
+monza:{
+name:"Ferrari Monza Edition",
+price:0,
+desc:"",
+images:[
+"assets/products/ferrari-puma-monza-2025-special-edition-t-shirt.jpg"
+],
+live:false
+},
+
+swartwell:{
+name:"Ferrari Oversized Wear",
+price:0,
+desc:"",
+images:[
+"assets/products/ferrari_oversized.jpg"
+],
+live:false
 }
+
 };
 
 const product = products[id];
 
 document.getElementById("name").innerText = product.name;
-document.getElementById("price").innerText = "₹"+product.price;
+document.getElementById("price").innerText =
+product.live ? "₹"+product.price : "Coming Soon";
+
 document.getElementById("desc").innerText = product.desc;
 
-/* SLIDER */
 const slides = document.getElementById("slides");
 const dots = document.getElementById("dots");
 
@@ -282,89 +307,108 @@ slides.innerHTML += `<img src="${img}">`;
 dots.innerHTML += `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`;
 });
 
-let current=0;
+let current = 0;
 
 function goSlide(i){
-current=i;
-slides.style.transform=`translateX(-${i*100}%)`;
+current = i;
+slides.style.transform = `translateX(-${i*100}%)`;
 
-document.querySelectorAll(".dot").forEach((d,idx)=>{
-d.classList.toggle("active",idx===i);
+document.querySelectorAll(".dot").forEach((dot,index)=>{
+dot.classList.toggle("active",index===i);
 });
 }
 
 /* SWIPE */
-let startX=0;
+let startX = 0;
 
 slides.addEventListener("touchstart",e=>{
-startX=e.touches[0].clientX;
+startX = e.touches[0].clientX;
 });
 
 slides.addEventListener("touchend",e=>{
-let endX=e.changedTouches[0].clientX;
+let endX = e.changedTouches[0].clientX;
 
-if(endX<startX-40 && current<product.images.length-1) goSlide(current+1);
-if(endX>startX+40 && current>0) goSlide(current-1);
+if(endX < startX - 40 && current < product.images.length-1){
+goSlide(current+1);
+}
+
+if(endX > startX + 40 && current > 0){
+goSlide(current-1);
+}
 });
 
-/* SIZE */
-let selectedSize="";
+/* COMING SOON PRODUCTS */
+if(!product.live){
 
-function selectSize(el,size){
+document.getElementById("fitWrap").style.display="none";
+document.getElementById("fitDesc").style.display="none";
+document.getElementById("fitLabel").style.display="none";
+document.getElementById("desc").style.display="none";
 
-document.querySelectorAll(".size-box").forEach(b=>{
-b.classList.remove("active");
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Send Enquiry";
+btn.classList.add("enquiry-btn");
+
+btn.onclick = function(){
+let msg = `Hello, I'm interested in ${product.name}. Please let me know when it becomes available.`;
+window.open("https://wa.me/919961365304?text="+encodeURIComponent(msg),"_blank");
+};
+
+}
+
+/* LIVE PRODUCT */
+let selectedFit = "";
+
+function pickFit(el,fit){
+
+document.querySelectorAll(".fit-btn").forEach(btn=>{
+btn.classList.remove("active");
 });
 
 el.classList.add("active");
-selectedSize=size;
+selectedFit = fit;
 
-/* reset button */
-let btn=document.getElementById("cartBtn");
-btn.innerText="Add to Cart";
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Add to Cart";
 btn.classList.remove("added");
 }
 
-/* CART - FINAL FIX (ID + SIZE BASED MERGE) */
 function addToCart(){
 
-if(selectedSize===""){
-alert("Please select a size");
+if(selectedFit===""){
+alert("Choose a fit first");
 return;
 }
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* MERGE LOGIC USING ID + SIZE */
-let existingItem = cart.find(item =>
-item.id === product.id &&
-item.size === selectedSize
+let found = cart.find(item =>
+item.name===product.name &&
+item.fit===selectedFit
 );
 
-if(existingItem){
-existingItem.qty += 1;
+if(found){
+found.qty += 1;
 }else{
 cart.push({
-id: product.id,
-name: product.name,
-price: product.price,
-size: selectedSize,
-qty: 1,
-img: product.images[0]
+name:product.name,
+price:product.price,
+fit:selectedFit,
+qty:1,
+img:product.images[0]
 });
 }
 
-localStorage.setItem("cart", JSON.stringify(cart));
+localStorage.setItem("cart",JSON.stringify(cart));
 
-let btn=document.getElementById("cartBtn");
-btn.innerText="Added to Cart";
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Added";
 btn.classList.add("added");
 
-updateCart();
+updateCartCount();
 }
 
-/* CART COUNT */
-function updateCart(){
+function updateCartCount(){
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
@@ -374,15 +418,16 @@ total += item.qty;
 });
 
 let badge = document.getElementById("cartCount");
-
 badge.innerText = total;
 
-if(total === 0) badge.classList.add("hide");
-else badge.classList.remove("hide");
+if(total===0){
+badge.classList.add("hide");
+}else{
+badge.classList.remove("hide");
+}
 }
 
-updateCart();
-
+updateCartCount();
 </script>
 
 </body>
