@@ -1,4 +1,3 @@
-<!-- FULL UPDATED cart.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -164,7 +163,7 @@ Proceed to Checkout on WhatsApp
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* FIX OLD DATA SAFETY */
+/* SAFETY: prevent undefined sizes */
 cart = cart.map(item => ({
 ...item,
 fit: item.fit || "Standard"
@@ -211,7 +210,7 @@ box.innerHTML += `
 
 <div class="name">${item.name}</div>
 
-<div class="meta">Size: ${item.fit || "Standard"}</div>
+<div class="meta">Size: ${item.fit}</div>
 
 <div class="row">
 
@@ -251,18 +250,19 @@ cart.splice(index,1);
 saveCart();
 }
 
+/* ✅ CLEAN WHATSAPP CHECKOUT FIX */
 function checkout(){
 
 let total = 0;
 
-let msg = "Hello, I would like to place an order:%0A%0A";
+let msg = "Hello, I would like to place an order:\n\n";
 
 cart.forEach(item=>{
 
 let subtotal = item.price * item.qty;
 total += subtotal;
 
-msg += `• ${item.name}%0ASize: ${item.fit || "Standard"}%0AQty: ${item.qty}%0AAmount: ₹${subtotal}%0A%0A`;
+msg += `• ${item.name}\nSize: ${item.fit}\nQty: ${item.qty}\nAmount: ₹${subtotal}\n\n`;
 
 });
 
