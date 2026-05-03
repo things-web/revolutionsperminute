@@ -29,7 +29,6 @@ font-size:1.2rem;
 margin-bottom:18px;
 }
 
-/* ITEM */
 .item{
 display:flex;
 gap:14px;
@@ -73,7 +72,6 @@ gap:10px;
 flex-wrap:wrap;
 }
 
-/* QTY */
 .qty{
 display:flex;
 align-items:center;
@@ -97,13 +95,11 @@ min-width:18px;
 text-align:center;
 }
 
-/* PRICE */
 .price{
 font-size:0.92rem;
 font-weight:700;
 }
 
-/* REMOVE */
 .remove{
 margin-top:8px;
 font-size:0.76rem;
@@ -111,7 +107,6 @@ color:#777;
 cursor:pointer;
 }
 
-/* NOTE */
 .note{
 margin-top:18px;
 font-size:0.78rem;
@@ -120,7 +115,6 @@ text-align:center;
 line-height:1.5;
 }
 
-/* TOTAL */
 .total{
 text-align:center;
 margin-top:16px;
@@ -128,7 +122,6 @@ font-size:1.08rem;
 font-weight:700;
 }
 
-/* BUTTON */
 .checkout{
 width:100%;
 padding:14px;
@@ -163,7 +156,7 @@ Final payable amount may vary slightly based on delivery location.
 <div class="total" id="total"></div>
 
 <button class="checkout" id="checkoutBtn" onclick="checkout()">
-Proceed to WhatsApp
+Proceed to Instagram
 </button>
 
 <script>
@@ -184,7 +177,7 @@ let btn = document.getElementById("checkoutBtn");
 
 box.innerHTML = "";
 
-if(cart.length === 0){
+if(cart.length===0){
 box.innerHTML = "<div class='empty'>Your cart is empty</div>";
 totalBox.innerHTML = "";
 note.style.display = "none";
@@ -237,10 +230,9 @@ totalBox.innerText = "Total: ₹" + total;
 }
 
 function changeQty(index,val){
-
 cart[index].qty += val;
 
-if(cart[index].qty <= 0){
+if(cart[index].qty<=0){
 cart.splice(index,1);
 }
 
@@ -252,23 +244,32 @@ cart.splice(index,1);
 saveCart();
 }
 
+/* 🚀 INSTAGRAM CHECKOUT */
 function checkout(){
 
 let total = 0;
-let msg = "Hello, I would like to place an order:%0A%0A";
+let msg = "🛒 NEW ORDER - rev per min.%0A%0A";
 
 cart.forEach(item=>{
-
 let subtotal = item.price * item.qty;
 total += subtotal;
 
-msg += `• ${item.name}%0ASize: ${item.size}%0AQty: ${item.qty}%0AAmount: ₹${subtotal}%0A%0A`;
-
+msg += `• ${item.name}%0A`;
+msg += `Size: ${item.size}%0A`;
+msg += `Qty: ${item.qty}%0A`;
+msg += `Amount: ₹${subtotal}%0A%0A`;
 });
 
-msg += `Total: ₹${total}`;
+msg += `TOTAL: ₹${total}%0A%0A`;
+msg += `Please confirm availability and payment.`;
 
-window.open("https://wa.me/919961365304?text=" + msg, "_blank");
+/* COPY MESSAGE */
+navigator.clipboard.writeText(decodeURIComponent(msg));
+
+/* OPEN INSTAGRAM */
+window.open("https://ig.me/m/revolutions.perminute", "_blank");
+
+alert("Order copied! Paste it in Instagram chat.");
 }
 
 renderCart();
