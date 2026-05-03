@@ -21,11 +21,6 @@ overflow-x:hidden;
 color:#111;
 }
 
-/* LOCK SCROLL WHEN MENU OPEN */
-body.menu-open{
-overflow:hidden;
-}
-
 /* HEADER */
 header{
 position:relative;
@@ -185,18 +180,16 @@ padding-left:10px;
 transition:transform 0.65s ease;
 cursor:pointer;
 align-items:center;
-will-change: transform;
 }
 
 .slider-track img{
-width:88vw;
-max-width:315px;
-height:168px;
+width:305px;
+height:162px;
 flex-shrink:0;
-object-fit:contain;
+object-fit:cover;
 object-position:center;
-background:#000;
 border-radius:12px;
+transform: scale(1.02);
 }
 
 /* FEATURED */
@@ -265,6 +258,7 @@ height:175px;
 }
 
 .slider-track img{
+width:315px;
 height:168px;
 }
 
@@ -274,6 +268,7 @@ line-height:1.32;
 max-width:94%;
 padding:0 6px;
 }
+
 }
 
 /* DESKTOP */
@@ -297,6 +292,7 @@ font-size:4rem;
 width:325px;
 height:178px;
 }
+
 }
 </style>
 </head>
@@ -353,17 +349,11 @@ Fast shipping • Limited stock
 </div>
 
 <script>
-
-/* MENU FIX (LOCK SCROLL) */
 function toggleMenu(){
-
 document.querySelector(".menu-btn").classList.toggle("active");
 document.getElementById("menu").classList.toggle("active");
-
-document.body.classList.toggle("menu-open");
 }
 
-/* CART COUNT */
 function updateCartCount(){
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
@@ -384,15 +374,14 @@ badge.classList.remove("hide");
 
 updateCartCount();
 
-/* SLIDER FIX (RESPONSIVE WIDTH) */
 const slider = document.getElementById("sliderTrack");
 
 let current = 0;
 const totalSlides = 3;
 
 function moveSlider(){
-const slideWidth = slider.children[0].offsetWidth + 8;
-slider.style.transform = `translateX(-${current * slideWidth}px)`;
+const shift = current * 323;
+slider.style.transform = `translateX(-${shift}px)`;
 }
 
 function nextSlide(){
@@ -408,7 +397,6 @@ setInterval(nextSlide,2500);
 slider.addEventListener("click",()=>{
 nextSlide();
 });
-
 </script>
 
 </body>
