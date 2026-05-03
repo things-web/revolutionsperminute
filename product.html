@@ -135,7 +135,7 @@ text-align:center;
 line-height:1.6;
 }
 
-/* SIZE GRID */
+/* SIZE */
 .label{
 margin-top:24px;
 font-size:0.9rem;
@@ -169,21 +169,11 @@ color:#fff;
 border-color:#111;
 }
 
+/* disabled ONLY faded */
 .size-box.disabled{
-opacity:0.35;
-position:relative;
+opacity:0.4;
+cursor:not-allowed;
 pointer-events:none;
-}
-
-.size-box.disabled::after{
-content:"";
-position:absolute;
-left:10%;
-top:50%;
-width:80%;
-height:2px;
-background:red;
-transform:rotate(-12deg);
 }
 
 /* NOTE */
@@ -212,11 +202,6 @@ font-weight:700;
 background:#fff;
 color:#111;
 border:1px solid #111;
-}
-
-.enquiry-btn{
-background:#111;
-color:#fff;
 }
 
 /* MOBILE */
@@ -264,8 +249,7 @@ color:#fff;
 </div>
 
 <div class="fit-note">
-⚠️ This product runs one size larger than standard sizing.  
-Recommended: choose your usual size or one size down for a closer fit.
+⚠️ This product runs slightly larger than standard sizing.
 </div>
 
 <button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
@@ -278,7 +262,6 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "polo";
 
 const products = {
-
 polo:{
 name:"Ferrari 2025 Drivers Sublimation Wear",
 price:469,
@@ -289,7 +272,6 @@ images:[
 ],
 live:true
 }
-
 };
 
 const product = products[id];
