@@ -1,4 +1,3 @@
-<!-- FULL UPDATED product.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product | rev per min.®</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Montserrat',sans-serif;background:#fff;color:#111;}
 
+/* HEADER */
 header{
 position:relative;
 padding:18px;
@@ -59,18 +59,19 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-padding:0 4px;
 font-weight:700;
 }
 
 .cart-count.hide{display:none;}
 
+/* CONTAINER */
 .container{
 max-width:420px;
 margin:auto;
-padding:22px;
+padding:18px;
 }
 
+/* GALLERY */
 .gallery{
 overflow:hidden;
 border-radius:16px;
@@ -78,38 +79,43 @@ border-radius:16px;
 
 .slides{
 display:flex;
-transition:0.35s ease;
+transition:0.45s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slides img{
 width:100%;
 flex-shrink:0;
-height:340px;
-object-fit:contain;
+height:440px;
+object-fit:cover;
+object-position:center;
+border-radius:16px;
 }
 
+/* DOTS */
 .dots{
 display:flex;
 justify-content:center;
 gap:8px;
-margin-top:12px;
+margin-top:10px;
 }
 
 .dot{
-width:8px;
-height:8px;
+width:7px;
+height:7px;
 border-radius:50%;
 background:#ccc;
 cursor:pointer;
+transition:0.3s;
 }
 
 .dot.active{
 background:#111;
+transform:scale(1.2);
 }
 
+/* TEXT */
 h1{
 font-size:1.05rem;
-line-height:1.45;
 margin-top:18px;
 text-align:center;
 }
@@ -124,57 +130,71 @@ text-align:center;
 .desc{
 font-size:0.9rem;
 color:#666;
-line-height:1.6;
 margin-top:12px;
 text-align:center;
+line-height:1.6;
 }
 
+/* SIZE GRID */
 .label{
 margin-top:24px;
 font-size:0.9rem;
 font-weight:700;
 }
 
-.fit-options{
+.size-grid{
 display:flex;
 gap:10px;
-margin-top:10px;
+margin-top:12px;
 }
 
-.fit-btn{
+.size-box{
 flex:1;
-padding:14px;
+padding:12px;
 border:1px solid #ddd;
-background:#fff;
-border-radius:12px;
+border-radius:10px;
+text-align:center;
+font-weight:700;
 cursor:pointer;
+transition:0.2s;
 }
 
-.fit-btn.active{
+.size-box:hover{
+transform:scale(1.05);
+}
+
+.size-box.active{
 background:#111;
 color:#fff;
 border-color:#111;
 }
 
-.fit-title{
-font-size:0.92rem;
-font-weight:700;
+.size-box.disabled{
+opacity:0.35;
+position:relative;
+pointer-events:none;
 }
 
-.fit-sub{
-font-size:0.72rem;
-margin-top:4px;
-opacity:0.8;
+.size-box.disabled::after{
+content:"";
+position:absolute;
+left:10%;
+top:50%;
+width:80%;
+height:2px;
+background:red;
+transform:rotate(-12deg);
 }
 
-.fit-desc{
-font-size:0.82rem;
+/* NOTE */
+.fit-note{
+font-size:0.8rem;
 color:#666;
 margin-top:12px;
-line-height:1.5;
-min-height:42px;
+line-height:1.4;
 }
 
+/* BUTTON */
 .cart-btn{
 width:100%;
 padding:15px;
@@ -198,26 +218,28 @@ border:1px solid #111;
 background:#111;
 color:#fff;
 }
+
+/* MOBILE */
+@media (max-width:480px){
+.slides img{height:480px;}
+.container{padding:14px;}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-
 <a href="collections.html" class="back">←</a>
-
 <img src="assets/logo.png" class="logo">
-
 <a href="cart.html" class="cart-wrap">
-🛒
-<span class="cart-count hide" id="cartCount">0</span>
+🛒<span class="cart-count hide" id="cartCount">0</span>
 </a>
-
 </header>
 
 <div class="container">
 
+<!-- SLIDER -->
 <div class="gallery">
 <div class="slides" id="slides"></div>
 </div>
@@ -228,24 +250,22 @@ color:#fff;
 <div class="price" id="price"></div>
 <div class="desc" id="desc"></div>
 
-<div class="label" id="fitLabel">Choose Fit</div>
+<!-- SIZE -->
+<div class="label">Select Size</div>
 
-<div class="fit-options" id="fitWrap">
+<div class="size-grid">
 
-<button class="fit-btn" onclick="pickFit(this,'Standard Fit')">
-<div class="fit-title">Standard Fit ⭐</div>
-<div class="fit-sub">Recommended</div>
-</button>
+<div class="size-box disabled">S</div>
+<div class="size-box disabled">M</div>
 
-<button class="fit-btn" onclick="pickFit(this,'Slim Fit')">
-<div class="fit-title">Slim Fit</div>
-<div class="fit-sub">Closer body fit</div>
-</button>
+<div class="size-box" onclick="selectSize(this,'L')">L</div>
+<div class="size-box" onclick="selectSize(this,'XL')">XL</div>
 
 </div>
 
-<div class="fit-desc" id="fitDesc">
-Runs slightly smaller than usual. Standard Fit recommended.
+<div class="fit-note">
+⚠️ This product runs one size larger than standard sizing.  
+Recommended: choose your usual size or one size down for a closer fit.
 </div>
 
 <button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
@@ -253,6 +273,7 @@ Runs slightly smaller than usual. Standard Fit recommended.
 </div>
 
 <script>
+
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "polo";
 
@@ -267,26 +288,6 @@ images:[
 "assets/products/ferrari-back.jpg"
 ],
 live:true
-},
-
-monza:{
-name:"Ferrari Monza Edition",
-price:0,
-desc:"",
-images:[
-"assets/products/ferrari-puma-monza-2025-special-edition-t-shirt.jpg"
-],
-live:false
-},
-
-swartwell:{
-name:"Ferrari Oversized Wear",
-price:0,
-desc:"",
-images:[
-"assets/products/ferrari_oversized.jpg"
-],
-live:false
 }
 
 };
@@ -294,11 +295,10 @@ live:false
 const product = products[id];
 
 document.getElementById("name").innerText = product.name;
-document.getElementById("price").innerText =
-product.live ? "₹"+product.price : "Coming Soon";
-
+document.getElementById("price").innerText = "₹"+product.price;
 document.getElementById("desc").innerText = product.desc;
 
+/* SLIDER */
 const slides = document.getElementById("slides");
 const dots = document.getElementById("dots");
 
@@ -307,127 +307,84 @@ slides.innerHTML += `<img src="${img}">`;
 dots.innerHTML += `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`;
 });
 
-let current = 0;
+let current=0;
 
 function goSlide(i){
-current = i;
-slides.style.transform = `translateX(-${i*100}%)`;
+current=i;
+slides.style.transform=`translateX(-${i*100}%)`;
 
-document.querySelectorAll(".dot").forEach((dot,index)=>{
-dot.classList.toggle("active",index===i);
+document.querySelectorAll(".dot").forEach((d,idx)=>{
+d.classList.toggle("active",idx===i);
 });
 }
 
 /* SWIPE */
-let startX = 0;
+let startX=0;
 
 slides.addEventListener("touchstart",e=>{
-startX = e.touches[0].clientX;
+startX=e.touches[0].clientX;
 });
 
 slides.addEventListener("touchend",e=>{
-let endX = e.changedTouches[0].clientX;
+let endX=e.changedTouches[0].clientX;
 
-if(endX < startX - 40 && current < product.images.length-1){
-goSlide(current+1);
-}
-
-if(endX > startX + 40 && current > 0){
-goSlide(current-1);
-}
+if(endX<startX-40 && current<product.images.length-1) goSlide(current+1);
+if(endX>startX+40 && current>0) goSlide(current-1);
 });
 
-/* COMING SOON PRODUCTS */
-if(!product.live){
+/* SIZE */
+let selectedSize="";
 
-document.getElementById("fitWrap").style.display="none";
-document.getElementById("fitDesc").style.display="none";
-document.getElementById("fitLabel").style.display="none";
-document.getElementById("desc").style.display="none";
+function selectSize(el,size){
 
-let btn = document.getElementById("cartBtn");
-btn.innerText = "Send Enquiry";
-btn.classList.add("enquiry-btn");
-
-btn.onclick = function(){
-let msg = `Hello, I'm interested in ${product.name}. Please let me know when it becomes available.`;
-window.open("https://wa.me/919961365304?text="+encodeURIComponent(msg),"_blank");
-};
-
-}
-
-/* LIVE PRODUCT */
-let selectedFit = "";
-
-function pickFit(el,fit){
-
-document.querySelectorAll(".fit-btn").forEach(btn=>{
-btn.classList.remove("active");
+document.querySelectorAll(".size-box").forEach(b=>{
+b.classList.remove("active");
 });
 
 el.classList.add("active");
-selectedFit = fit;
-
-let btn = document.getElementById("cartBtn");
-btn.innerText = "Add to Cart";
-btn.classList.remove("added");
+selectedSize=size;
 }
 
+/* CART */
 function addToCart(){
 
-if(selectedFit===""){
-alert("Choose a fit first");
+if(selectedSize===""){
+alert("Please select a size");
 return;
 }
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-let found = cart.find(item =>
-item.name===product.name &&
-item.fit===selectedFit
-);
-
-if(found){
-found.qty += 1;
-}else{
 cart.push({
 name:product.name,
 price:product.price,
-fit:selectedFit,
+size:selectedSize,
 qty:1,
 img:product.images[0]
 });
-}
 
 localStorage.setItem("cart",JSON.stringify(cart));
 
-let btn = document.getElementById("cartBtn");
-btn.innerText = "Added";
-btn.classList.add("added");
+document.getElementById("cartBtn").innerText="Added ✔";
 
-updateCartCount();
+updateCart();
 }
 
-function updateCartCount(){
+function updateCart(){
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let total = 0;
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let total=cart.length;
 
-cart.forEach(item=>{
-total += item.qty;
-});
+let badge=document.getElementById("cartCount");
 
-let badge = document.getElementById("cartCount");
-badge.innerText = total;
+badge.innerText=total;
 
-if(total===0){
-badge.classList.add("hide");
-}else{
-badge.classList.remove("hide");
-}
+if(total===0) badge.classList.add("hide");
+else badge.classList.remove("hide");
 }
 
-updateCartCount();
+updateCart();
+
 </script>
 
 </body>
