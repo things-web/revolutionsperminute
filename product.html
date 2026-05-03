@@ -169,7 +169,7 @@ color:#fff;
 border-color:#111;
 }
 
-/* disabled ONLY faded */
+/* disabled */
 .size-box.disabled{
 opacity:0.4;
 cursor:not-allowed;
@@ -325,6 +325,11 @@ b.classList.remove("active");
 
 el.classList.add("active");
 selectedSize=size;
+
+/* RESET BUTTON WHEN SIZE CHANGES */
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Add to Cart";
+btn.classList.remove("added");
 }
 
 /* CART */
@@ -347,7 +352,9 @@ img:product.images[0]
 
 localStorage.setItem("cart",JSON.stringify(cart));
 
-document.getElementById("cartBtn").innerText="Added ✔";
+let btn=document.getElementById("cartBtn");
+btn.innerText="Added to Cart";
+btn.classList.add("added");
 
 updateCart();
 }
@@ -355,7 +362,11 @@ updateCart();
 function updateCart(){
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let total=cart.length;
+let total=0;
+
+cart.forEach(item=>{
+total+=item.qty;
+});
 
 let badge=document.getElementById("cartCount");
 
