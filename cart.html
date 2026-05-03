@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Cart</title>
+<title>Your Cart | rev per min.®</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
@@ -18,56 +18,30 @@ body{
 font-family:'Montserrat',sans-serif;
 background:#fff;
 color:#111;
-padding:18px;
+padding:20px;
 }
 
-header{
+h2{
 text-align:center;
-font-size:1.3rem;
-font-weight:700;
-padding-bottom:18px;
-border-bottom:1px solid #eee;
-margin-bottom:18px;
-position:relative;
+font-size:1.25rem;
+margin-bottom:20px;
 }
 
-.back{
-position:absolute;
-left:0;
-top:0;
-text-decoration:none;
-color:#111;
-font-size:14px;
-padding-top:4px;
-}
-
-#cart{
-display:flex;
-flex-direction:column;
-gap:14px;
-}
-
-/* ITEM CARD */
+/* CART ITEM */
 .item{
-border:1px solid #eee;
-border-radius:16px;
-padding:14px;
-background:#fff;
-}
-
-/* TOP ROW */
-.top-row{
 display:flex;
-gap:12px;
+gap:14px;
+padding:14px 0;
+border-bottom:1px solid #eee;
 align-items:center;
 }
 
-.thumb{
-width:68px;
-height:68px;
+.item img{
+width:72px;
+height:72px;
 object-fit:contain;
+border-radius:10px;
 background:#fff;
-border-radius:12px;
 flex-shrink:0;
 }
 
@@ -76,254 +50,125 @@ flex:1;
 }
 
 .name{
-font-size:0.95rem;
+font-size:0.92rem;
 font-weight:700;
-line-height:1.35;
-margin-bottom:6px;
+line-height:1.4;
+margin-bottom:4px;
 }
 
 .meta{
-font-size:0.88rem;
+font-size:0.82rem;
 color:#666;
+line-height:1.5;
 }
 
-/* BOTTOM */
-.bottom-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-top:14px;
-gap:12px;
-}
-
-.qty-box{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.qty-btn{
-width:30px;
-height:30px;
-border:none;
-border-radius:8px;
-background:#111;
-color:#fff;
-font-size:18px;
-cursor:pointer;
-}
-
-.qty{
-min-width:18px;
+/* NOTE */
+.note{
+margin-top:18px;
+font-size:0.78rem;
+color:#666;
 text-align:center;
-font-weight:700;
+line-height:1.5;
+padding:0 8px;
 }
 
-.price{
-font-weight:700;
-font-size:1rem;
-}
-
-.remove{
-margin-top:10px;
-font-size:0.85rem;
-color:#999;
-cursor:pointer;
-text-decoration:underline;
-}
-
-/* SUMMARY */
-.summary{
-margin-top:22px;
-padding-top:18px;
-border-top:1px solid #eee;
-}
-
+/* TOTAL */
 .total{
-display:flex;
-justify-content:space-between;
-font-size:1.15rem;
+text-align:center;
+margin-top:18px;
+font-size:1.1rem;
 font-weight:700;
-margin-bottom:18px;
 }
 
-/* CHECKOUT BUTTON */
-.checkout{
+/* BUTTON */
+button{
 width:100%;
-padding:15px;
+padding:14px;
+margin-top:18px;
 border:1px solid #111;
 background:#fff;
 color:#111;
-font-size:1rem;
+font-size:0.95rem;
 font-weight:700;
-border-radius:12px;
+border-radius:8px;
 cursor:pointer;
 }
 
 /* EMPTY */
 .empty{
 text-align:center;
-padding:50px 20px;
 color:#666;
-line-height:1.7;
-}
-
-.shop-btn{
-display:inline-block;
-margin-top:16px;
-padding:12px 18px;
-background:#111;
-color:#fff;
-text-decoration:none;
-border-radius:10px;
-font-size:14px;
+margin-top:40px;
+font-size:0.95rem;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-<a href="index.html" class="back">← Back</a>
-Your Cart
-</header>
+<h2>Your Cart</h2>
 
 <div id="cart"></div>
 
-<div class="summary" id="summary">
-<div class="total">
-<span>Total</span>
-<span id="total">₹0</span>
+<div class="note">
+Final payable amount may vary slightly based on delivery location.
 </div>
 
-<button class="checkout" onclick="checkout()">
-Proceed to Checkout on WhatsApp
-</button>
-</div>
+<div class="total" id="total"></div>
+
+<button onclick="checkout()">Proceed to WhatsApp</button>
 
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-/* IMAGE MAPPING */
-const productImages = {
-"Ferrari 2025 Drivers Polo Jersey":"assets/products/ferrari_polo_2025.jpg",
-"Ferrari Monza Edition":"assets/products/ferrari-puma-monza-2025-special-edition-t-shirt.jpg",
-"Ferrari Swartwell Oversized Drivers Tee":"assets/products/ferrari_oversized.jpg"
-};
-
-function renderCart(){
-
 let container = document.getElementById("cart");
 let total = 0;
 
-container.innerHTML = "";
-
 if(cart.length === 0){
-
-container.innerHTML = `
-<div class="empty">
-Your cart is empty.<br>
-Start adding Ferrari heat 🔥<br>
-<a href="collections.html" class="shop-btn">Shop Now</a>
-</div>
-`;
-
-document.getElementById("summary").style.display = "none";
-return;
+container.innerHTML = "<div class='empty'>Your cart is empty</div>";
+document.querySelector(".note").style.display = "none";
+document.getElementById("total").style.display = "none";
+document.querySelector("button").style.display = "none";
 }
 
-document.getElementById("summary").style.display = "block";
-
-cart.forEach((item,index)=>{
+cart.forEach(item => {
 
 total += item.price * item.qty;
 
-let img = productImages[item.name] || "";
+let image = item.img ? item.img : "assets/products/ferrari-front.jpg";
 
 container.innerHTML += `
 <div class="item">
 
-<div class="top-row">
-
-<img src="${img}" class="thumb">
+<img src="${image}" alt="product">
 
 <div class="info">
 <div class="name">${item.name}</div>
 <div class="meta">Fit: ${item.fit}</div>
+<div class="meta">Qty: ${item.qty}</div>
+<div class="meta">₹${item.price}</div>
 </div>
-
-</div>
-
-<div class="bottom-row">
-
-<div class="qty-box">
-<button class="qty-btn" onclick="changeQty(${index},-1)">−</button>
-<div class="qty">${item.qty}</div>
-<button class="qty-btn" onclick="changeQty(${index},1)">+</button>
-</div>
-
-<div class="price">₹${item.price * item.qty}</div>
-
-</div>
-
-<div class="remove" onclick="removeItem(${index})">Remove</div>
 
 </div>
 `;
-
 });
 
-document.getElementById("total").innerText = "₹" + total;
-
-}
-
-function changeQty(index,change){
-
-cart[index].qty += change;
-
-if(cart[index].qty <= 0){
-cart.splice(index,1);
-}
-
-saveCart();
-renderCart();
-}
-
-function removeItem(index){
-cart.splice(index,1);
-saveCart();
-renderCart();
-}
-
-function saveCart(){
-localStorage.setItem("cart", JSON.stringify(cart));
-}
+document.getElementById("total").innerText = "Total: ₹" + total;
 
 function checkout(){
 
 let phone = "919961365304";
-let total = 0;
-let message = "🛒 Order Details:%0A%0A";
 
-cart.forEach(item=>{
+let message = "Hello, I would like to place an order:%0A%0A";
 
-total += item.price * item.qty;
-
-message +=
-`Product: ${item.name}%0A` +
-`Fit: ${item.fit}%0A` +
-`Qty: ${item.qty}%0A` +
-`Subtotal: ₹${item.price * item.qty}%0A%0A`;
-
+cart.forEach(item => {
+message += `• ${item.name}%0AFit: ${item.fit}%0AQty: ${item.qty}%0APrice: ₹${item.price}%0A%0A`;
 });
 
-message += `TOTAL: ₹${total}`;
+message += `Total: ₹${total}`;
 
 window.open(`https://wa.me/${phone}?text=${message}`,"_blank");
-
 }
-
-renderCart();
 </script>
 
 </body>
