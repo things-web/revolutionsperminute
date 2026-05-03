@@ -8,54 +8,223 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-body{font-family:Montserrat;background:#fff;color:#111;margin:0;padding:0;}
-.container{max-width:420px;margin:auto;padding:18px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif;background:#fff;color:#111;}
 
-.gallery{overflow:hidden;border-radius:14px;}
-.slides{display:flex;transition:0.6s cubic-bezier(0.22,1,0.36,1);}
-.slides img{width:100%;height:420px;object-fit:cover;flex-shrink:0;}
-
-.dots{display:flex;justify-content:center;gap:6px;margin-top:10px;}
-.dot{width:7px;height:7px;border-radius:50%;background:#ccc;}
-.dot.active{background:#111;}
-
-h1{text-align:center;font-size:1rem;margin-top:16px;}
-.price{text-align:center;font-weight:700;margin-top:8px;}
-.desc{text-align:center;color:#666;font-size:0.9rem;margin-top:10px;}
-
-.size-box{padding:12px;border:1px solid #ddd;border-radius:10px;text-align:center;cursor:pointer;flex:1;}
-.size-box.active{background:#111;color:#fff;}
-.size-box.disabled{opacity:0.4;pointer-events:none;}
-
-.size-row{display:flex;gap:10px;margin-top:12px;}
-
-.btn{
-width:100%;
-padding:14px;
-margin-top:18px;
-border-radius:10px;
-font-weight:700;
-cursor:pointer;
+/* HEADER */
+header{
+position:relative;
+padding:18px;
+display:flex;
+justify-content:center;
+align-items:center;
+border-bottom:1px solid #eee;
+min-height:74px;
 }
 
-.primary{background:#111;color:#fff;border:none;}
-.secondary{background:#fff;border:1px solid #111;color:#111;}
+.back{
+position:absolute;
+left:18px;
+top:24px;
+text-decoration:none;
+color:#111;
+font-size:18px;
+font-weight:700;
+}
 
-.note{font-size:0.8rem;color:#666;margin-top:10px;text-align:center;}
+.logo{
+width:160px;
+max-width:58vw;
+}
 
-header{text-align:center;padding:16px;border-bottom:1px solid #eee;}
-.logo{width:160px;}
+.cart-wrap{
+position:absolute;
+right:18px;
+top:22px;
+text-decoration:none;
+font-size:22px;
+color:#111;
+}
+
+.cart-count{
+position:absolute;
+top:-6px;
+right:-10px;
+background:#000;
+color:#fff;
+font-size:10px;
+min-width:18px;
+height:18px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
+}
+
+.cart-count.hide{display:none;}
+
+/* CONTAINER */
+.container{
+max-width:420px;
+margin:auto;
+padding:18px;
+}
+
+/* GALLERY */
+.gallery{
+overflow:hidden;
+border-radius:16px;
+}
+
+.slides{
+display:flex;
+transition:0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.slides img{
+width:100%;
+flex-shrink:0;
+height:440px;
+object-fit:cover;
+object-position:center;
+border-radius:16px;
+}
+
+/* DOTS */
+.dots{
+display:flex;
+justify-content:center;
+gap:8px;
+margin-top:10px;
+}
+
+.dot{
+width:7px;
+height:7px;
+border-radius:50%;
+background:#ccc;
+cursor:pointer;
+transition:0.3s;
+}
+
+.dot.active{
+background:#111;
+transform:scale(1.2);
+}
+
+/* TEXT */
+h1{
+font-size:1.05rem;
+margin-top:18px;
+text-align:center;
+}
+
+.price{
+font-size:1.35rem;
+font-weight:700;
+margin-top:10px;
+text-align:center;
+}
+
+.desc{
+font-size:0.9rem;
+color:#666;
+margin-top:12px;
+text-align:center;
+line-height:1.6;
+}
+
+/* SIZE */
+.label{
+margin-top:24px;
+font-size:0.9rem;
+font-weight:700;
+}
+
+.size-grid{
+display:flex;
+gap:10px;
+margin-top:12px;
+}
+
+.size-box{
+flex:1;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+text-align:center;
+font-weight:700;
+cursor:pointer;
+transition:0.2s;
+}
+
+.size-box:hover{
+transform:scale(1.05);
+}
+
+.size-box.active{
+background:#111;
+color:#fff;
+border-color:#111;
+}
+
+/* disabled ONLY faded */
+.size-box.disabled{
+opacity:0.4;
+cursor:not-allowed;
+pointer-events:none;
+}
+
+/* NOTE */
+.fit-note{
+font-size:0.8rem;
+color:#666;
+margin-top:12px;
+line-height:1.4;
+}
+
+/* BUTTON */
+.cart-btn{
+width:100%;
+padding:15px;
+margin-top:20px;
+border:none;
+background:#111;
+color:#fff;
+font-size:1rem;
+border-radius:12px;
+cursor:pointer;
+font-weight:700;
+}
+
+.cart-btn.added{
+background:#fff;
+color:#111;
+border:1px solid #111;
+}
+
+/* MOBILE */
+@media (max-width:480px){
+.slides img{height:480px;}
+.container{padding:14px;}
+}
 </style>
 </head>
 
 <body>
 
 <header>
+<a href="collections.html" class="back">←</a>
 <img src="assets/logo.png" class="logo">
+<a href="cart.html" class="cart-wrap">
+🛒<span class="cart-count hide" id="cartCount">0</span>
+</a>
 </header>
 
 <div class="container">
 
+<!-- SLIDER -->
 <div class="gallery">
 <div class="slides" id="slides"></div>
 </div>
@@ -66,36 +235,35 @@ header{text-align:center;padding:16px;border-bottom:1px solid #eee;}
 <div class="price" id="price"></div>
 <div class="desc" id="desc"></div>
 
-<!-- LIVE PRODUCT UI -->
-<div id="liveUI">
+<!-- SIZE -->
+<div class="label">Select Size</div>
 
-<div class="size-row">
+<div class="size-grid">
+
 <div class="size-box disabled">S</div>
 <div class="size-box disabled">M</div>
+
 <div class="size-box" onclick="selectSize(this,'L')">L</div>
 <div class="size-box" onclick="selectSize(this,'XL')">XL</div>
-</div>
-
-<div class="note">Runs slightly larger than standard sizing.</div>
-
-<button class="btn primary" id="cartBtn" onclick="addToCart()">Add to Cart</button>
 
 </div>
 
-<!-- COMING SOON UI -->
-<div id="comingUI" style="display:none;">
-<button class="btn secondary" onclick="enquiry()">Send Enquiry</button>
-<div class="note">Coming soon. Tap to get updates on Instagram.</div>
+<div class="fit-note">
+⚠️ This product runs slightly larger than standard sizing.
 </div>
+
+<button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
 
 </div>
 
 <script>
 
-const products={
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id") || "polo";
+
+const products = {
 polo:{
-id:"polo",
-name:"Ferrari 2025 Drivers Wear",
+name:"Ferrari 2025 Drivers Sublimation Wear",
 price:469,
 desc:"Race inspired jersey built for everyday wear.",
 images:[
@@ -103,100 +271,101 @@ images:[
 "assets/products/ferrari-back.jpg"
 ],
 live:true
-},
-
-monza:{
-id:"monza",
-name:"Ferrari Monza Edition",
-price:0,
-desc:"Limited edition drop coming soon.",
-images:[
-"assets/products/ferrari-monza.jpg"
-],
-live:false
 }
 };
 
-const params=new URLSearchParams(window.location.search);
-const id=params.get("id")||"polo";
-const product=products[id];
+const product = products[id];
 
-/* TEXT */
-document.getElementById("name").innerText=product.name;
-document.getElementById("price").innerText=product.live?"₹"+product.price:"Coming Soon";
-document.getElementById("desc").innerText=product.desc;
-
-/* UI SWITCH */
-if(product.live){
-document.getElementById("liveUI").style.display="block";
-document.getElementById("comingUI").style.display="none";
-}else{
-document.getElementById("liveUI").style.display="none";
-document.getElementById("comingUI").style.display="block";
-}
+document.getElementById("name").innerText = product.name;
+document.getElementById("price").innerText = "₹"+product.price;
+document.getElementById("desc").innerText = product.desc;
 
 /* SLIDER */
-const slides=document.getElementById("slides");
-const dots=document.getElementById("dots");
+const slides = document.getElementById("slides");
+const dots = document.getElementById("dots");
 
 product.images.forEach((img,i)=>{
-slides.innerHTML+=`<img src="${img}">`;
-dots.innerHTML+=`<div class="dot ${i===0?'active':''}" onclick="go(${i})"></div>`;
+slides.innerHTML += `<img src="${img}">`;
+dots.innerHTML += `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`;
 });
 
 let current=0;
 
-function go(i){
+function goSlide(i){
 current=i;
-if(current>=product.images.length) current=0;
-if(current<0) current=product.images.length-1;
-slides.style.transform=`translateX(-${current*100}%)`;
+slides.style.transform=`translateX(-${i*100}%)`;
 
-document.querySelectorAll(".dot").forEach((d,i)=>{
-d.classList.toggle("active",i===current);
+document.querySelectorAll(".dot").forEach((d,idx)=>{
+d.classList.toggle("active",idx===i);
 });
 }
 
-/* SIZE */
-let size="";
+/* SWIPE */
+let startX=0;
 
-function selectSize(el,s){
-document.querySelectorAll(".size-box").forEach(b=>b.classList.remove("active"));
+slides.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
+
+slides.addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX;
+
+if(endX<startX-40 && current<product.images.length-1) goSlide(current+1);
+if(endX>startX+40 && current>0) goSlide(current-1);
+});
+
+/* SIZE */
+let selectedSize="";
+
+function selectSize(el,size){
+
+document.querySelectorAll(".size-box").forEach(b=>{
+b.classList.remove("active");
+});
+
 el.classList.add("active");
-size=s;
+selectedSize=size;
 }
 
 /* CART */
 function addToCart(){
 
-if(!size){
-alert("Select size");
+if(selectedSize===""){
+alert("Please select a size");
 return;
 }
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-let found=cart.find(i=>i.id===product.id && i.size===size);
-
-if(found) found.qty++;
-else cart.push({id:product.id,name:product.name,price:product.price,size,qty:1,img:product.images[0]});
+cart.push({
+name:product.name,
+price:product.price,
+size:selectedSize,
+qty:1,
+img:product.images[0]
+});
 
 localStorage.setItem("cart",JSON.stringify(cart));
 
-alert("Added");
+document.getElementById("cartBtn").innerText="Added ✔";
+
+updateCart();
 }
 
-/* ENQUIRY */
-function enquiry(){
+function updateCart(){
 
-let msg=`🛒 ENQUIRY - rev per min.%0A%0AProduct: ${product.name}`;
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let total=cart.length;
 
-navigator.clipboard.writeText(decodeURIComponent(msg));
+let badge=document.getElementById("cartCount");
 
-window.open("https://ig.me/m/revolutions.perminute","_blank");
+badge.innerText=total;
 
-alert("Copied to clipboard");
+if(total===0) badge.classList.add("hide");
+else badge.classList.remove("hide");
 }
+
+updateCart();
 
 </script>
 
