@@ -160,12 +160,12 @@ margin-top:10px;
 
 .fit-btn{
 flex:1;
-padding:12px;
+padding:14px 10px;
 border:1px solid #ddd;
 background:#fff;
-border-radius:10px;
-font-size:0.9rem;
+border-radius:12px;
 cursor:pointer;
+text-align:center;
 }
 
 .fit-btn.active{
@@ -174,12 +174,28 @@ color:#fff;
 border-color:#111;
 }
 
+.recommended{
+border:1px solid #111;
+}
+
+.fit-title{
+font-size:0.92rem;
+font-weight:700;
+}
+
+.fit-sub{
+font-size:0.72rem;
+margin-top:4px;
+opacity:0.8;
+line-height:1.4;
+}
+
 .fit-desc{
-font-size:0.85rem;
+font-size:0.82rem;
 color:#666;
 line-height:1.5;
 margin-top:12px;
-min-height:40px;
+min-height:42px;
 }
 
 /* BUTTON */
@@ -245,11 +261,22 @@ height:300px;
 <div class="label">Choose Fit</div>
 
 <div class="fit-options" id="fitWrap">
-<button class="fit-btn" onclick="pickFit(this,'Normal Fit')">Normal Fit</button>
-<button class="fit-btn" onclick="pickFit(this,'Oversized Fit')">Oversized Fit</button>
+
+<button class="fit-btn recommended" onclick="pickFit(this,'XL')">
+<div class="fit-title">Standard Fit ⭐</div>
+<div class="fit-sub">Recommended for most</div>
+</button>
+
+<button class="fit-btn" onclick="pickFit(this,'L')">
+<div class="fit-title">Slim Fit</div>
+<div class="fit-sub">Closer body fit</div>
+</button>
+
 </div>
 
-<div class="fit-desc" id="fitDesc">Select a fit option above.</div>
+<div class="fit-desc" id="fitDesc">
+Runs slightly smaller than usual. We recommend Standard Fit for most customers.
+</div>
 
 <button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
 
@@ -313,12 +340,13 @@ let current = 0;
 function goSlide(i){
 current = i;
 slides.style.transform = `translateX(-${i*100}%)`;
+
 document.querySelectorAll(".dot").forEach((d,index)=>{
 d.classList.toggle("active",index===i);
 });
 }
 
-/* Swipe */
+/* SWIPE */
 let startX = 0;
 
 slides.addEventListener("touchstart",e=>{
@@ -327,15 +355,17 @@ startX = e.touches[0].clientX;
 
 slides.addEventListener("touchend",e=>{
 let endX = e.changedTouches[0].clientX;
+
 if(endX < startX - 40 && current < product.images.length-1){
 goSlide(current+1);
 }
+
 if(endX > startX + 40 && current > 0){
 goSlide(current-1);
 }
 });
 
-/* Coming soon */
+/* COMING SOON */
 if(!product.live){
 document.getElementById("fitWrap").style.display="none";
 document.getElementById("fitDesc").style.display="none";
@@ -358,10 +388,13 @@ btn.classList.remove("active");
 el.classList.add("active");
 selectedFit = fit;
 
+if(fit==="XL"){
 document.getElementById("fitDesc").innerText =
-fit==="Normal Fit"
-? "Regular clean fit with sharper body shape."
-: "Relaxed oversized fit with streetwear comfort.";
+"Standard Fit is recommended for most customers. Comfortable everyday wear.";
+}else{
+document.getElementById("fitDesc").innerText =
+"Slim Fit gives a closer body fit. Choose if you prefer less loose feel.";
+}
 
 let btn = document.getElementById("cartBtn");
 btn.innerText = "Add to Cart";
@@ -389,7 +422,7 @@ found.qty += 1;
 cart.push({
 name:product.name,
 price:product.price,
-fit:selectedFit,
+fit:selectedFit==="XL" ? "Standard Fit" : "Slim Fit",
 qty:1,
 img:product.images[0]
 });
@@ -409,9 +442,12 @@ function updateCartCount(){
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
 
-cart.forEach(item=> total += item.qty);
+cart.forEach(item=>{
+total += item.qty;
+});
 
 let badge = document.getElementById("cartCount");
+
 badge.innerText = total;
 
 if(total===0){
