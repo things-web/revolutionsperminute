@@ -71,7 +71,7 @@ margin:auto;
 padding:18px;
 }
 
-/* GALLERY */
+/* SLIDER */
 .gallery{
 overflow:hidden;
 border-radius:16px;
@@ -157,7 +157,7 @@ color:#666;
 margin-top:12px;
 }
 
-/* BUTTON */
+/* BUTTONS */
 .cart-btn{
 width:100%;
 padding:15px;
@@ -177,6 +177,13 @@ color:#111;
 border:1px solid #111;
 }
 
+.enquiry-btn{
+background:#111;
+color:#fff;
+border:1px solid #111;
+margin-top:10px;
+}
+
 /* MOBILE */
 @media(max-width:480px){
 .slides img{height:480px;}
@@ -190,6 +197,7 @@ border:1px solid #111;
 <header>
 <a href="collections.html" class="back">←</a>
 <img src="assets/logo.png" class="logo">
+
 <a href="cart.html" class="cart-wrap">
 🛒<span class="cart-count hide" id="cartCount">0</span>
 </a>
@@ -224,6 +232,9 @@ border:1px solid #111;
 
 <button class="cart-btn" id="cartBtn" onclick="addToCart()">Add to Cart</button>
 
+<!-- ENQUIRY BUTTON -->
+<button class="cart-btn enquiry-btn" id="enquiryBtn">Send Enquiry</button>
+
 </div>
 
 <script>
@@ -240,7 +251,8 @@ desc:"Race inspired jersey built for everyday wear.",
 images:[
 "assets/products/ferrari-front.jpg",
 "assets/products/ferrari-back.jpg"
-]
+],
+live:true
 }
 };
 
@@ -260,21 +272,16 @@ slides.innerHTML += `<img src="${img}">`;
 dots.innerHTML += `<div class="dot ${i===0?'active':''}" onclick="goSlide(${i})"></div>`;
 });
 
-let current = 0;
+let current=0;
 
 function goSlide(i){
 
-current = i;
+current=i;
 
-/* LOOP */
-if(current >= product.images.length){
-current = 0;
-}
-if(current < 0){
-current = product.images.length - 1;
-}
+if(current>=product.images.length) current=0;
+if(current<0) current=product.images.length-1;
 
-slides.style.transform = `translateX(-${current * 100}%)`;
+slides.style.transform=`translateX(-${current*100}%)`;
 
 document.querySelectorAll(".dot").forEach((d,idx)=>{
 d.classList.toggle("active",idx===current);
@@ -282,21 +289,21 @@ d.classList.toggle("active",idx===current);
 }
 
 /* SWIPE */
-let startX = 0;
+let startX=0;
 
 slides.addEventListener("touchstart",e=>{
-startX = e.touches[0].clientX;
+startX=e.touches[0].clientX;
 });
 
 slides.addEventListener("touchend",e=>{
-let endX = e.changedTouches[0].clientX;
+let endX=e.changedTouches[0].clientX;
 
-if(endX < startX - 40) goSlide(current + 1);
-if(endX > startX + 40) goSlide(current - 1);
+if(endX<startX-40) goSlide(current+1);
+if(endX>startX+40) goSlide(current-1);
 });
 
 /* SIZE */
-let selectedSize = "";
+let selectedSize="";
 
 function selectSize(el,size){
 
@@ -305,14 +312,14 @@ b.classList.remove("active");
 });
 
 el.classList.add("active");
-selectedSize = size;
+selectedSize=size;
 
-let btn = document.getElementById("cartBtn");
-btn.innerText = "Add to Cart";
+let btn=document.getElementById("cartBtn");
+btn.innerText="Add to Cart";
 btn.classList.remove("added");
 }
 
-/* CART (MERGE FIX) */
+/* CART */
 function addToCart(){
 
 if(selectedSize===""){
@@ -320,46 +327,66 @@ alert("Please select a size");
 return;
 }
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
 
-let existing = cart.find(item =>
-item.id === product.id &&
-item.size === selectedSize
+let existing=cart.find(item=>
+item.id===product.id && item.size===selectedSize
 );
 
 if(existing){
-existing.qty += 1;
+existing.qty+=1;
 }else{
 cart.push({
-id: product.id,
-name: product.name,
-price: product.price,
-size: selectedSize,
-qty: 1,
-img: product.images[0]
+id:product.id,
+name:product.name,
+price:product.price,
+size:selectedSize,
+qty:1,
+img:product.images[0]
 });
 }
 
-localStorage.setItem("cart", JSON.stringify(cart));
+localStorage.setItem("cart",JSON.stringify(cart));
 
-let btn = document.getElementById("cartBtn");
-btn.innerText = "Added to Cart";
+let btn=document.getElementById("cartBtn");
+btn.innerText="Added to Cart";
 btn.classList.add("added");
 
 updateCart();
 }
 
+/* ENQUIRY - INSTAGRAM */
+document.getElementById("enquiryBtn").onclick=function(){
+
+let msg=`🛒 PRODUCT ENQUIRY - rev per min.%0A%0A`;
+msg+=`Product: ${product.name}%0A`;
+
+if(product.price){
+msg+=`Price: ₹${product.price}%0A`;
+}
+
+msg+=`%0AInterested in availability & details.`;
+
+/* COPY */
+navigator.clipboard.writeText(decodeURIComponent(msg));
+
+/* OPEN IG */
+window.open("https://ig.me/m/revolutions.perminute","_blank");
+
+alert("Enquiry copied! Paste it in Instagram chat.");
+};
+
 /* CART COUNT */
 function updateCart(){
 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let total = 0;
+let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let total=0;
 
 cart.forEach(i=>total+=i.qty);
 
-let badge = document.getElementById("cartCount");
+let badge=document.getElementById("cartCount");
 
-badge.innerText = total;
+badge.innerText=total;
 
 if(total===0) badge.classList.add("hide");
 else badge.classList.remove("hide");
