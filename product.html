@@ -71,7 +71,7 @@ margin:auto;
 padding:18px;
 }
 
-/* GALLERY */
+/* SLIDER */
 .gallery{
 overflow:hidden;
 border-radius:16px;
@@ -79,7 +79,7 @@ border-radius:16px;
 
 .slides{
 display:flex;
-transition:0.45s cubic-bezier(0.25, 1, 0.5, 1);
+transition:0.45s ease;
 }
 
 .slides img{
@@ -87,7 +87,6 @@ width:100%;
 flex-shrink:0;
 height:440px;
 object-fit:cover;
-object-position:center;
 border-radius:16px;
 }
 
@@ -105,7 +104,6 @@ height:7px;
 border-radius:50%;
 background:#ccc;
 cursor:pointer;
-transition:0.3s;
 }
 
 .dot.active{
@@ -115,23 +113,23 @@ transform:scale(1.2);
 
 /* TEXT */
 h1{
+text-align:center;
 font-size:1.05rem;
 margin-top:18px;
-text-align:center;
 }
 
 .price{
+text-align:center;
 font-size:1.35rem;
 font-weight:700;
 margin-top:10px;
-text-align:center;
 }
 
 .desc{
+text-align:center;
 font-size:0.9rem;
 color:#666;
 margin-top:12px;
-text-align:center;
 line-height:1.6;
 }
 
@@ -156,11 +154,6 @@ border-radius:10px;
 text-align:center;
 font-weight:700;
 cursor:pointer;
-transition:0.2s;
-}
-
-.size-box:hover{
-transform:scale(1.05);
 }
 
 .size-box.active{
@@ -169,10 +162,8 @@ color:#fff;
 border-color:#111;
 }
 
-/* disabled ONLY faded */
 .size-box.disabled{
 opacity:0.4;
-cursor:not-allowed;
 pointer-events:none;
 }
 
@@ -181,7 +172,6 @@ pointer-events:none;
 font-size:0.8rem;
 color:#666;
 margin-top:12px;
-line-height:1.4;
 }
 
 /* BUTTON */
@@ -205,7 +195,7 @@ border:1px solid #111;
 }
 
 /* MOBILE */
-@media (max-width:480px){
+@media(max-width:480px){
 .slides img{height:480px;}
 .container{padding:14px;}
 }
@@ -217,6 +207,7 @@ border:1px solid #111;
 <header>
 <a href="collections.html" class="back">←</a>
 <img src="assets/logo.png" class="logo">
+
 <a href="cart.html" class="cart-wrap">
 🛒<span class="cart-count hide" id="cartCount">0</span>
 </a>
@@ -261,8 +252,10 @@ border:1px solid #111;
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "polo";
 
+/* ✅ IMPORTANT: UNIQUE PRODUCT ID ADDED */
 const products = {
 polo:{
+id:"ferrari_2025_jersey",
 name:"Ferrari 2025 Drivers Sublimation Wear",
 price:469,
 desc:"Race inspired jersey built for everyday wear.",
@@ -325,9 +318,14 @@ b.classList.remove("active");
 
 el.classList.add("active");
 selectedSize=size;
+
+/* reset button */
+let btn=document.getElementById("cartBtn");
+btn.innerText="Add to Cart";
+btn.classList.remove("added");
 }
 
-/* CART */
+/* CART - FINAL FIX (ID + SIZE BASED MERGE) */
 function addToCart(){
 
 if(selectedSize===""){
@@ -335,33 +333,51 @@ alert("Please select a size");
 return;
 }
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+/* MERGE LOGIC USING ID + SIZE */
+let existingItem = cart.find(item =>
+item.id === product.id &&
+item.size === selectedSize
+);
+
+if(existingItem){
+existingItem.qty += 1;
+}else{
 cart.push({
-name:product.name,
-price:product.price,
-size:selectedSize,
-qty:1,
-img:product.images[0]
+id: product.id,
+name: product.name,
+price: product.price,
+size: selectedSize,
+qty: 1,
+img: product.images[0]
 });
+}
 
-localStorage.setItem("cart",JSON.stringify(cart));
+localStorage.setItem("cart", JSON.stringify(cart));
 
-document.getElementById("cartBtn").innerText="Added ✔";
+let btn=document.getElementById("cartBtn");
+btn.innerText="Added to Cart";
+btn.classList.add("added");
 
 updateCart();
 }
 
+/* CART COUNT */
 function updateCart(){
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let total=cart.length;
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let total = 0;
 
-let badge=document.getElementById("cartCount");
+cart.forEach(item=>{
+total += item.qty;
+});
 
-badge.innerText=total;
+let badge = document.getElementById("cartCount");
 
-if(total===0) badge.classList.add("hide");
+badge.innerText = total;
+
+if(total === 0) badge.classList.add("hide");
 else badge.classList.remove("hide");
 }
 
