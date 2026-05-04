@@ -21,7 +21,6 @@ overflow-x:hidden;
 color:#111;
 }
 
-/* LOCK SCROLL WHEN MENU OPEN */
 body.menu-open{
 overflow:hidden;
 }
@@ -250,53 +249,61 @@ font-weight:700;
 }
 
 .trust{
-margin:26px 0 28px;
+margin:26px 0 10px;
 text-align:center;
 font-size:0.82rem;
 color:#555;
 padding:0 12px;
 }
 
+/* ABOUT SECTION */
+.about{
+width:100%;
+background:#0b0b0b;
+color:#fff;
+padding:40px 20px;
+margin-top:30px;
+text-align:center;
+}
+
+.about h2{
+font-family:'Bebas Neue',sans-serif;
+font-size:2.2rem;
+margin-bottom:16px;
+letter-spacing:1px;
+}
+
+.about p{
+font-size:0.9rem;
+line-height:1.6;
+max-width:500px;
+margin:0 auto 14px;
+color:#ddd;
+}
+
+.about .highlight{
+color:#e10600;
+font-weight:700;
+}
+
+.footer{
+margin-top:20px;
+font-size:0.85rem;
+color:#aaa;
+}
+
 /* MOBILE */
 @media(max-width:480px){
-
-.square{
-height:175px;
-}
-
-.slider-track img{
-height:168px;
-}
-
-.featured h2{
-font-size:0.92rem;
-line-height:1.32;
-max-width:94%;
-padding:0 6px;
-}
+.square{height:175px;}
+.slider-track img{height:168px;}
 }
 
 /* DESKTOP */
 @media(min-width:768px){
-
-.logo{
-width:205px;
-max-width:260px;
-}
-
-.square{
-width:360px;
-height:190px;
-}
-
-.collections{
-font-size:4rem;
-}
-
-.slider-track img{
-width:325px;
-height:178px;
-}
+.logo{width:205px;max-width:260px;}
+.square{width:360px;height:190px;}
+.collections{font-size:4rem;}
+.slider-track img{width:325px;height:178px;}
 }
 </style>
 </head>
@@ -320,6 +327,7 @@ height:178px;
 <div class="side-menu" id="menu">
 <a href="index.html">Home</a>
 <a href="collections.html">Explore.</a>
+<a href="#about" onclick="closeMenu()">About</a>
 </div>
 
 <div class="main">
@@ -349,28 +357,51 @@ height:178px;
 </div>
 
 <div class="trust">
-Fast shipping • Limited stock
+Fast shipping via DTDC / India Post • Limited stock
+</div>
+
+<!-- ABOUT SECTION -->
+<div class="about" id="about">
+<h2>About</h2>
+
+<p>
+rev per min.® is built for those who live the <span class="highlight">speed, precision, and energy</span> of motorsport.
+Inspired by Formula 1 culture, every drop is designed to bring that race-day feeling into everyday wear.
+</p>
+
+<p>
+We focus on <span class="highlight">limited releases</span>, ensuring each piece stays exclusive and true to the spirit of performance.
+</p>
+
+<p>
+📦 Shipping: Fast delivery via DTDC / India Post<br>
+🔁 Returns: Only applicable for damaged products<br>
+📩 Contact: revolutionsperminute99@gmail.com
+</p>
+
+<div class="footer">
+Instagram: @revolutions.perminute
+</div>
 </div>
 
 <script>
-
-/* MENU FIX (LOCK SCROLL) */
 function toggleMenu(){
-
 document.querySelector(".menu-btn").classList.toggle("active");
 document.getElementById("menu").classList.toggle("active");
-
 document.body.classList.toggle("menu-open");
 }
 
-/* CART COUNT */
+function closeMenu(){
+document.querySelector(".menu-btn").classList.remove("active");
+document.getElementById("menu").classList.remove("active");
+document.body.classList.remove("menu-open");
+}
+
+/* CART */
 function updateCartCount(){
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
-
-cart.forEach(item=>{
-total += item.qty;
-});
+cart.forEach(item=>{ total += item.qty; });
 
 const badge = document.getElementById("cartCount");
 badge.innerText = total;
@@ -381,12 +412,10 @@ badge.classList.add("hide");
 badge.classList.remove("hide");
 }
 }
-
 updateCartCount();
 
-/* SLIDER FIX (RESPONSIVE WIDTH) */
+/* SLIDER */
 const slider = document.getElementById("sliderTrack");
-
 let current = 0;
 const totalSlides = 3;
 
@@ -397,18 +426,12 @@ slider.style.transform = `translateX(-${current * slideWidth}px)`;
 
 function nextSlide(){
 current++;
-if(current >= totalSlides){
-current = 0;
-}
+if(current >= totalSlides){ current = 0; }
 moveSlider();
 }
 
 setInterval(nextSlide,2500);
-
-slider.addEventListener("click",()=>{
-nextSlide();
-});
-
+slider.addEventListener("click",()=>{ nextSlide(); });
 </script>
 
 </body>
