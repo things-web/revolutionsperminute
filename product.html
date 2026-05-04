@@ -31,15 +31,18 @@ font-size:18px;
 font-weight:700;
 }
 
-.logo{width:160px;max-width:58vw;}
+.logo{
+width:160px;
+max-width:58vw;
+}
 
 .cart-wrap{
 position:absolute;
 right:18px;
 top:22px;
+text-decoration:none;
 font-size:22px;
 color:#111;
-text-decoration:none;
 }
 
 .cart-count{
@@ -55,6 +58,7 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
+padding:0 4px;
 font-weight:700;
 }
 
@@ -66,7 +70,7 @@ margin:auto;
 padding:22px;
 }
 
-/* 🔥 GALLERY */
+/* GALLERY */
 .gallery{
 position:relative;
 overflow:hidden;
@@ -75,7 +79,7 @@ border-radius:16px;
 
 .slides{
 display:flex;
-transition:0.4s ease;
+transition:0.35s ease;
 }
 
 .slides img{
@@ -101,15 +105,10 @@ border-radius:50%;
 font-size:20px;
 cursor:pointer;
 z-index:10;
-backdrop-filter:blur(4px);
 }
 
 .arrow.left{left:10px;}
 .arrow.right{right:10px;}
-
-.arrow:active{
-transform:translateY(-50%) scale(0.9);
-}
 
 /* DOTS */
 .dots{
@@ -131,6 +130,7 @@ cursor:pointer;
 
 h1{
 font-size:1.05rem;
+line-height:1.45;
 margin-top:18px;
 text-align:center;
 }
@@ -145,6 +145,7 @@ text-align:center;
 .desc{
 font-size:0.9rem;
 color:#666;
+line-height:1.6;
 margin-top:12px;
 text-align:center;
 }
@@ -155,6 +156,7 @@ font-size:0.9rem;
 font-weight:700;
 }
 
+/* SIZE */
 .fit-options{
 display:flex;
 gap:10px;
@@ -181,14 +183,18 @@ border-color:#111;
 .fit-btn.disabled{
 opacity:0.35;
 pointer-events:none;
+cursor:not-allowed;
 }
 
+/* SIZE NOTE */
 .fit-desc{
 font-size:0.82rem;
 color:#666;
 margin-top:10px;
+line-height:1.5;
 }
 
+/* BUTTON */
 .cart-btn{
 width:100%;
 padding:15px;
@@ -200,6 +206,7 @@ font-size:1rem;
 border-radius:12px;
 cursor:pointer;
 font-weight:700;
+transition:0.2s ease;
 }
 
 .cart-btn.added{
@@ -207,18 +214,27 @@ background:#fff;
 color:#111;
 border:1px solid #111;
 }
+
+.enquiry-btn{
+background:#111;
+color:#fff;
+}
 </style>
 </head>
 
 <body>
 
 <header>
+
 <a href="collections.html" class="back">←</a>
+
 <img src="assets/logo.png" class="logo">
+
 <a href="cart.html" class="cart-wrap">
 🛒
 <span class="cart-count hide" id="cartCount">0</span>
 </a>
+
 </header>
 
 <div class="container">
@@ -242,10 +258,13 @@ border:1px solid #111;
 <div class="label" id="fitLabel">Choose Fit</div>
 
 <div class="fit-options" id="fitWrap">
+
 <button class="fit-btn disabled">S</button>
 <button class="fit-btn disabled">M</button>
+
 <button class="fit-btn" onclick="pickFit(this,'L')">L</button>
 <button class="fit-btn" onclick="pickFit(this,'XL')">XL</button>
+
 </div>
 
 <div class="fit-desc" id="fitDesc">
@@ -262,6 +281,7 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get("id") || "polo";
 
 const products = {
+
 polo:{
 name:"Ferrari 2025 Drivers Sublimation Wear",
 price:469,
@@ -271,13 +291,36 @@ images:[
 "assets/products/ferrari-back.jpg"
 ],
 live:true
+},
+
+monza:{
+name:"Ferrari Monza Edition",
+price:0,
+desc:"",
+images:[
+"assets/products/ferrari-puma-monza-2025-special-edition-t-shirt.jpg"
+],
+live:false
+},
+
+swartwell:{
+name:"Ferrari Oversized Wear",
+price:0,
+desc:"",
+images:[
+"assets/products/ferrari_oversized.jpg"
+],
+live:false
 }
+
 };
 
 const product = products[id];
 
 document.getElementById("name").innerText = product.name;
-document.getElementById("price").innerText = "₹"+product.price;
+document.getElementById("price").innerText =
+product.live ? "₹"+product.price : "Coming Soon";
+
 document.getElementById("desc").innerText = product.desc;
 
 /* SLIDER */
@@ -295,24 +338,24 @@ function goSlide(i){
 current = i;
 slides.style.transform = `translateX(-${i*100}%)`;
 
-document.querySelectorAll(".dot").forEach((d,index)=>{
-d.classList.toggle("active",index===i);
+document.querySelectorAll(".dot").forEach((dot,index)=>{
+dot.classList.toggle("active",index===i);
 });
 }
 
 function nextSlide(){
-if(current < product.images.length-1){
-goSlide(current+1);
+if(current < product.images.length - 1){
+goSlide(current + 1);
 }
 }
 
 function prevSlide(){
 if(current > 0){
-goSlide(current-1);
+goSlide(current - 1);
 }
 }
 
-/* SWIPE */
+/* SWIPE FIX */
 let startX = 0;
 
 slides.addEventListener("touchstart",e=>{
@@ -322,20 +365,109 @@ startX = e.touches[0].clientX;
 slides.addEventListener("touchend",e=>{
 let endX = e.changedTouches[0].clientX;
 
-if(endX < startX - 40) nextSlide();
-if(endX > startX + 40) prevSlide();
+if(startX - endX > 40){
+nextSlide();
+}else if(endX - startX > 40){
+prevSlide();
+}
 });
+
+/* FIT */
+let selectedFit = "";
+
+function pickFit(el,fit){
+
+document.querySelectorAll(".fit-btn").forEach(b=>{
+b.classList.remove("active");
+});
+
+el.classList.add("active");
+selectedFit = fit;
+
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Add to Cart";
+btn.classList.remove("added");
+}
+
+/* CART */
+function addToCart(){
+
+if(selectedFit===""){
+alert("Choose a fit first");
+return;
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let found = cart.find(i =>
+i.name === product.name &&
+i.fit === selectedFit
+);
+
+if(found){
+found.qty++;
+}else{
+cart.push({
+name:product.name,
+price:product.price,
+fit:selectedFit,
+qty:1,
+img:product.images[0]
+});
+}
+
+localStorage.setItem("cart",JSON.stringify(cart));
+
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Added";
+btn.classList.add("added");
+
+setTimeout(()=>{
+btn.innerText = "Add to Cart";
+btn.classList.remove("added");
+},700);
+
+updateCartCount();
+}
+
+/* COMING SOON (UNCHANGED) */
+if(!product.live){
+
+document.getElementById("fitWrap").style.display="none";
+document.getElementById("fitDesc").style.display="none";
+document.getElementById("fitLabel").style.display="none";
+
+let btn = document.getElementById("cartBtn");
+btn.innerText = "Send Enquiry";
+btn.classList.add("enquiry-btn");
+
+btn.onclick = function(){
+
+let msg = `Hello, I'm interested in ${product.name}. Please let me know when it becomes available.`;
+
+window.open(
+"https://wa.me/919961365304?text=" + encodeURIComponent(msg),
+"_blank"
+);
+
+};
+
+}
 
 /* CART COUNT */
 function updateCartCount(){
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
+
 cart.forEach(i=>total+=i.qty);
 
 let badge = document.getElementById("cartCount");
 badge.innerText = total;
+
 badge.classList.toggle("hide", total===0);
 }
+
 updateCartCount();
 
 </script>
