@@ -8,22 +8,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Bebas+Neue&display=swap" rel="stylesheet">
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
 background:#fff;
 font-family:'Montserrat',sans-serif;
 overflow-x:hidden;
 color:#111;
+scroll-behavior:smooth;
 }
 
-body.menu-open{
-overflow:hidden;
-}
+body.menu-open{overflow:hidden;}
 
 /* HEADER */
 header{
@@ -39,9 +34,6 @@ min-height:76px;
 .logo{
 width:185px;
 max-width:62vw;
-height:auto;
-display:block;
-object-fit:contain;
 margin:0 auto;
 }
 
@@ -61,35 +53,24 @@ position:absolute;
 width:100%;
 height:3px;
 background:#000;
-transition:0.3s ease;
-left:0;
+transition:0.3s;
 }
 
 .menu-btn span:nth-child(1){top:6px;}
 .menu-btn span:nth-child(2){top:14px;}
 
-.menu-btn.active span:nth-child(1){
-transform:rotate(45deg);
-top:10px;
-}
-
-.menu-btn.active span:nth-child(2){
-transform:rotate(-45deg);
-top:10px;
-}
-
-.menu-btn.active span{
-background:#fff;
-}
+.menu-btn.active span:nth-child(1){transform:rotate(45deg);top:10px;}
+.menu-btn.active span:nth-child(2){transform:rotate(-45deg);top:10px;}
+.menu-btn.active span{background:#fff;}
 
 /* CART */
 .cart-wrap{
 position:absolute;
 right:18px;
 top:24px;
+font-size:22px;
 text-decoration:none;
 color:#000;
-font-size:22px;
 }
 
 .cart-count{
@@ -105,13 +86,10 @@ border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-padding:0 4px;
 font-weight:700;
 }
 
-.cart-count.hide{
-display:none;
-}
+.cart-count.hide{display:none;}
 
 /* SIDE MENU */
 .side-menu{
@@ -134,13 +112,10 @@ font-size:1.2rem;
 margin-bottom:20px;
 }
 
-.side-menu.active{
-left:0;
-}
+.side-menu.active{left:0;}
 
 /* MAIN */
 .main{
-width:100%;
 display:flex;
 flex-direction:column;
 align-items:center;
@@ -154,7 +129,6 @@ max-width:340px;
 height:170px;
 background:#000;
 border-radius:16px;
-overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -162,38 +136,28 @@ align-items:center;
 
 .collections{
 color:#fff;
-font-family:'Bebas Neue',sans-serif;
+font-family:'Bebas Neue';
 font-size:3.4rem;
 text-decoration:none;
-letter-spacing:1px;
 }
 
 /* SLIDER */
-.slider-wrap{
-width:100%;
-height:100%;
-overflow:hidden;
-position:relative;
-}
+.slider-wrap{width:100%;height:100%;overflow:hidden;}
 
 .slider-track{
-height:100%;
 display:flex;
 gap:8px;
 padding-left:10px;
-transition:transform 0.65s ease;
+transition:0.6s;
 cursor:pointer;
 align-items:center;
-will-change: transform;
 }
 
 .slider-track img{
 width:88vw;
 max-width:315px;
 height:168px;
-flex-shrink:0;
 object-fit:contain;
-object-position:center;
 background:#000;
 border-radius:12px;
 }
@@ -220,31 +184,22 @@ margin-bottom:10px;
 width:100%;
 height:210px;
 object-fit:contain;
-margin-bottom:8px;
 }
 
 .featured h2{
-font-size:0.98rem;
-font-weight:700;
-line-height:1.35;
-margin:8px auto 10px;
-max-width:92%;
+font-size:0.95rem;
+margin:10px 0;
 }
 
-.price{
-font-size:1rem;
-font-weight:700;
-margin-bottom:12px;
-}
+.price{font-weight:700;margin-bottom:10px;}
 
 .shop-btn{
-display:inline-block;
 padding:10px 26px;
 background:#e10600;
 color:#fff;
 text-decoration:none;
 border-radius:6px;
-font-size:0.82rem;
+font-size:0.8rem;
 font-weight:700;
 }
 
@@ -253,57 +208,77 @@ margin:26px 0 10px;
 text-align:center;
 font-size:0.82rem;
 color:#555;
-padding:0 12px;
 }
 
-/* ABOUT SECTION */
+/* 🔥 NEW ABOUT (PREMIUM STYLE) */
 .about{
 width:100%;
 background:#0b0b0b;
 color:#fff;
-padding:40px 20px;
-margin-top:30px;
-text-align:center;
+padding:60px 22px;
+margin-top:40px;
+}
+
+.about-inner{
+max-width:520px;
+margin:0 auto;
 }
 
 .about h2{
-font-family:'Bebas Neue',sans-serif;
-font-size:2.2rem;
-margin-bottom:16px;
+font-family:'Bebas Neue';
+font-size:2rem;
 letter-spacing:1px;
+margin-bottom:18px;
 }
 
 .about p{
-font-size:0.9rem;
-line-height:1.6;
-max-width:500px;
-margin:0 auto 14px;
-color:#ddd;
+font-size:0.88rem;
+line-height:1.7;
+color:#cfcfcf;
+margin-bottom:14px;
 }
 
-.about .highlight{
+.highlight{
 color:#e10600;
-font-weight:700;
+font-weight:600;
 }
 
-.footer{
+.about-divider{
+height:1px;
+background:#222;
+margin:22px 0;
+}
+
+.about-info{
+font-size:0.82rem;
+color:#aaa;
+}
+
+.about-info span{
+display:block;
+margin-bottom:6px;
+}
+
+.insta{
 margin-top:20px;
 font-size:0.85rem;
-color:#aaa;
+}
+
+.insta a{
+color:#fff;
+text-decoration:none;
+border-bottom:1px solid #444;
 }
 
 /* MOBILE */
 @media(max-width:480px){
 .square{height:175px;}
-.slider-track img{height:168px;}
 }
 
 /* DESKTOP */
 @media(min-width:768px){
-.logo{width:205px;max-width:260px;}
 .square{width:360px;height:190px;}
 .collections{font-size:4rem;}
-.slider-track img{width:325px;height:178px;}
 }
 </style>
 </head>
@@ -360,27 +335,36 @@ color:#aaa;
 Fast shipping via DTDC / India Post • Limited stock
 </div>
 
-<!-- ABOUT SECTION -->
+<!-- 🔥 ABOUT -->
 <div class="about" id="about">
-<h2>About</h2>
+<div class="about-inner">
+
+<h2>Our Story</h2>
 
 <p>
-rev per min.® is built for those who live the <span class="highlight">speed, precision, and energy</span> of motorsport.
-Inspired by Formula 1 culture, every drop is designed to bring that race-day feeling into everyday wear.
+rev per min.® is built for those who live the 
+<span class="highlight">speed, precision, and energy</span> of motorsport.
 </p>
 
 <p>
-We focus on <span class="highlight">limited releases</span>, ensuring each piece stays exclusive and true to the spirit of performance.
+Inspired by Formula 1 culture, each drop delivers a 
+<span class="highlight">race-day feeling</span> in everyday wear.
 </p>
 
-<p>
-📦 Shipping: Fast delivery via DTDC / India Post<br>
-🔁 Returns: Only applicable for damaged products<br>
-📩 Contact: revolutionsperminute99@gmail.com
-</p>
+<div class="about-divider"></div>
 
-<div class="footer">
-Instagram: @revolutions.perminute
+<div class="about-info">
+<span>📦 Fast shipping via DTDC / India Post</span>
+<span>🔁 Returns only for damaged products</span>
+<span>📩 revolutionsperminute99@gmail.com</span>
+</div>
+
+<div class="insta">
+<a href="https://instagram.com/revolutions.perminute" target="_blank">
+@revolutions.perminute
+</a>
+</div>
+
 </div>
 </div>
 
@@ -401,37 +385,32 @@ document.body.classList.remove("menu-open");
 function updateCartCount(){
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
-cart.forEach(item=>{ total += item.qty; });
+cart.forEach(i=> total += i.qty);
 
 const badge = document.getElementById("cartCount");
 badge.innerText = total;
 
-if(total===0){
-badge.classList.add("hide");
-}else{
-badge.classList.remove("hide");
-}
+total===0 ? badge.classList.add("hide") : badge.classList.remove("hide");
 }
 updateCartCount();
 
 /* SLIDER */
-const slider = document.getElementById("sliderTrack");
-let current = 0;
-const totalSlides = 3;
+const slider=document.getElementById("sliderTrack");
+let current=0;
 
-function moveSlider(){
-const slideWidth = slider.children[0].offsetWidth + 8;
-slider.style.transform = `translateX(-${current * slideWidth}px)`;
+function move(){
+const w=slider.children[0].offsetWidth+8;
+slider.style.transform=`translateX(-${current*w}px)`;
 }
 
-function nextSlide(){
+function next(){
 current++;
-if(current >= totalSlides){ current = 0; }
-moveSlider();
+if(current>=3) current=0;
+move();
 }
 
-setInterval(nextSlide,2500);
-slider.addEventListener("click",()=>{ nextSlide(); });
+setInterval(next,2500);
+slider.addEventListener("click",next);
 </script>
 
 </body>
